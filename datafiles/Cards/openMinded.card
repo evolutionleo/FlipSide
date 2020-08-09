@@ -1,0 +1,19 @@
+{
+	"name": "OpenMinded",
+	"rarity": "veryrare",
+	"cost": 1,
+	"effect": "global.player.hit(5); global.player.applyEffect(12, 1, -1);",
+	"side_effect": "
+		var pos = global.player.last_played_pos;
+		global.player.discardRandom(2, pos);
+		global.exile = true;
+		variable_instance_set(target, \"friendly\", true);
+	",
+	"spr": "cdPlaceholder.png",
+	"targeting": false,
+	"side_targeting": true,
+	"text": "Lose [hit=5] hp. Double healing this turn",
+	"side_text": "Discard [discard=2]. Gain control over an enemy. [b]Exile[/b]",
+	"color": "ad682c",
+	"side_color": "724620"
+}

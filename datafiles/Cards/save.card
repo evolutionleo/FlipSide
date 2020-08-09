@@ -1,0 +1,16 @@
+{
+    "name": "Save",
+	"cost": 1,
+	"rarity": "rare",
+	"effect": "global.player.applyEffect(3);",
+	"side_effect": "
+		global.player.hit(50);
+		global.player.addCrystal();",
+	"spr": "cdPlaceholder.png",
+	"targeting": false,
+	"side_targeting": false,
+	"text": "Cut by half all damage dealt/received this turn",
+	"side_text": "Lose [hit=50] hp. Create 1 mana crystal",
+	"color": "2c68ad",
+	"side_color": "204672"
+}

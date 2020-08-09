@@ -1,0 +1,22 @@
+// Maybe they don't even duplicate
+Big Slime
+100 hp
+15 atk
+
+Medium Slime
+40 hp
+10 atk
+
+Small Slime
+15 hp
+5 atk
+
+
+Healer
+45 hp
+15 heal
+5 atk
+
+Dragon
+300 hp
+25 atk

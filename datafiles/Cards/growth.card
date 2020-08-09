@@ -1,0 +1,18 @@
+{
+    "name": "Growth",
+	"rarity": "rare",
+    "spr": "cdGrowth.png",
+    "cost": 3,
+    "effect": "global.player.addCrystal();",
+    "side_effect": "
+    if global.player.max_mana > 0 {
+        global.player.destroyCrystal();
+        global.player.deal(target, 50);
+    }",
+    "targeting": false,
+    "side_targeting": true,
+    "text": "Gain 1 mana crystal",
+    "side_text": "Destroy 1 crystal\nDeal [damage=50]",
+    "color": "1ded37",
+    "side_color": "ff0064"
+}

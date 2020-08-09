@@ -1,0 +1,14 @@
+{
+    "name": "Water",
+	"rarity": "common",
+	"cost": 1,
+	"effect":  "global.player.heal(5); global.player.draw(2);",
+	"side_effect": "global.player.deal(target, 5); global.player.draw(1);",
+	"spr": "cdWater.png",
+	"targeting": false,
+	"side_targeting": true,
+	"text": "Heal [heal=5]\nDraw [draw=2]",
+	"side_text": "Deal [damage=5]\nDraw [draw=1]",
+	"color": "a5d1ff",
+	"side_color": "007c99"
+}

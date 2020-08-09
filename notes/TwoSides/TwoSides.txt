@@ -1,0 +1,13 @@
+-Card game
+-Cards are two-sided
+-Deck is assembled along the way
+-New deck each run
+-Just classic Slay the Spire approach (no additional genres)
+-Setting: fantasy (you are a mage and cards are spells)
+
+-Two sides of cards represent different play styles:
+-1 - More defensive, 2 - More offensive
+-1 - Light side, 2 - Dark side
+-Each card has multiple uses
+-You can win by using only one strategy/side, as well as both
+-As many synergies as possible

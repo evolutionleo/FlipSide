@@ -1,0 +1,14 @@
+{
+    "name": "HealingDeath",
+	"rarity": "rare",
+	"cost": 1,
+	"effect": "global.player.applyEffect(7, true, -1);",
+	"side_effect": "global.player.applyEffect(8, true, -1);",
+	"spr": "cdHealingDeath.png",
+	"targeting": false,
+	"side_targeting": false,
+	"text": "This turn,\nGain Lifesteal",
+	"side_text": "Healing turns into damage to all enemies",
+	"color": "e4ffac",
+	"side_color": "854b17"
+}

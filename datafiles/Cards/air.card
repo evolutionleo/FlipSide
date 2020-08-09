@@ -1,0 +1,14 @@
+{
+    "name": "Air",
+	"rarity": "common",
+    "spr": "cdAir.png",
+    "cost": 0,
+    "effect": "global.player.draw(); global.player.heal(3);",
+    "side_effect": "global.player.draw(); global.player.deal(target, 3);",
+    "targeting": false,
+    "side_targeting": true,
+    "text": "Draw 1\nHeal 3",
+	"side_text": "Draw 1\nDeal 3",
+	"color": "ffffff",
+	"side_color": "ffffff"
+}

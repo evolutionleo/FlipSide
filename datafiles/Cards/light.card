@@ -1,0 +1,25 @@
+{
+    "name": "Light",
+	"rarity": "veryrare",
+    "spr": "cdLight.png",
+    "cost": 1,
+    "effect": "
+    with(oEnemy) {
+        heal(20);
+    }
+    global.player.heal(20);",
+    "side_effect": "
+        var dmg = target.hp;
+        global.player.deal(target, dmg);    
+        global.player.hit(dmg);
+        if instance_exists(target) and target.hp > 0 {
+            target.die();
+        }
+    ",
+    "targeting": false,
+    "side_targeting": true,
+    "text": "Heal [heal=20] to EVERYONE",
+    "side_text": "Kill enemy lose hp = to its hp",
+    "color": "a0a277",
+    "side_color": "000000"
+}

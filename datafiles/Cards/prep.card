@@ -1,0 +1,14 @@
+{
+    "name": "Preparation",
+	"rarity": "rare",
+    "spr": "cdPreparation.png",
+    "cost": 0,
+    "effect": "global.player.applyEffect(5, true, -1);",
+    "side_effect": "global.player.applyEffect(6, true, -1);",
+    "targeting": false,
+    "side_targeting": false,
+    "text": "Next card -2 mana",
+    "side_text": "Next card deals x2",
+    "color": "57082e",
+    "side_color": "57082e"
+}

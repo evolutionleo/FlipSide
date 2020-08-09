@@ -1,0 +1,18 @@
+{
+    "name": "Best4Last",
+	"rarity": "common",
+	"cost": 1,
+	"effect": "global.player.applyEffect(4, 1, -1);",
+	"side_effect": "
+		var cards = global.player.hand.size-1;
+		global.player.discardHand();
+		global.player.deal(target, 10*cards);
+	",
+	"spr": "cdPlaceholder.png",
+	"targeting": false,
+	"side_targeting": true,
+	"text": "Next turn, gain 2 mana and Draw [draw=1]",
+	"side_text": "Discard hand. Deal [damage=10] for each card discarded",
+	"color": "ad682c",
+	"side_color": "724620"
+}

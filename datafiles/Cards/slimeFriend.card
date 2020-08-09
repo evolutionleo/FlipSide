@@ -1,0 +1,18 @@
+{
+    "name": "SlimeFriend",
+	"rarity": "common",
+	"cost": 2,
+	"effect": "
+		var slime = instance_create_layer(0, 0, \"Enemies\", oSmallSlime);
+		slime.switchSide(true);
+		//variable_instance_set(slime, \"friendly\", true);
+	",
+	"side_effect": "with(oSlime) { global.player.deal(id, 30); }",
+	"spr": "cdPlaceholder.png",
+	"targeting": false,
+	"side_targeting": false,
+	"text": "Summon a 10/10 slime",
+	"side_text": "Deal [damage=30] to ALL slimes",
+	"color": "ad682c",
+	"side_color": "724620"
+}

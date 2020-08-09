@@ -1,0 +1,14 @@
+{
+    "name": "Clarity",
+	"rarity": "rare",
+	"cost": 1,
+	"effect": "global.player.applyEffect(2, 2, -1); global.player.heal(5); global.player.draw(1);",
+	"side_effect": "global.player.deal(target, 7); target.applyEffect(11, 2, 0);",
+	"spr": "cdPlaceholder.png",
+	"targeting": false,
+	"side_targeting": true,
+	"text": "Gain [strength=2] strength. Heal [heal=5]. Draw [draw=1]",
+	"side_text": "Apply [weak=2] weak to an enemy. Deal [damage=7]",
+	"color": "ad682c",
+	"side_color": "724620"
+}

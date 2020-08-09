@@ -1,0 +1,14 @@
+{
+    "name": "Fire",
+	"rarity": "common",
+	"cost": 1,
+	"effect": "global.player.heal(10);",
+	"side_effect": "global.player.deal(target, 10);",
+	"spr": "cdFire.png",
+	"targeting": false,
+	"side_targeting": true,
+	"text": "Heal [heal=10]",
+	"side_text": "Deal [damage=10]",
+	"color": "ad682c",
+	"side_color": "724620"
+}

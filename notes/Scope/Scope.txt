@@ -1,0 +1,6 @@
+Run length: 10 min to 1 hour
+Estimated runs to beat the game: 4
+Areas: 3
+Bosses: 6
+Enemies: 12
+Cards: 30
