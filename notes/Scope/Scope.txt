@@ -1,6 +1,42 @@
 Run length: 10 min to 1 hour
 Estimated runs to beat the game: 4
+
 Areas: 3
 Bosses: 6
 Enemies: 12
 Cards: 30
+
+Areas:
+	Cave,
+	Crystal Cave,
+	Fiery Cave;
+	?Abyss?
+
+Enemies:
+	Cave:
+		Slime, (4 kinds)
+		Bat,
+		Goblin,
+		Rat
+	Crystal Cave:
+		Crystal Turtle,
+		Crystal Fly,
+		Skeleton,
+		Crystal Kobold
+	Fiery Cave:
+		Fiery Slime,
+		FlameThrower, (Skeleton throwing flames)
+		Fiery Bat,
+		Fiery Kobold
+		
+
+Bosses:
+	Cave:
+		King Slime,
+		Mage Novice
+	Crystal Cave:
+		Crystal Golem,
+		Crystal Mage
+	Fiery Cave:
+		The Dragon,
+		The Archmage

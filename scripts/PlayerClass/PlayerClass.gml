@@ -155,6 +155,10 @@ function Player() constructor {
 			damage /= 2
 			damage = ceil(damage)
 		}
+		if getEffect(EFFECTS.WEAK) {
+			damage /= 2
+			damage = ceil(damage)
+		}
 		if getEffect(EFFECTS.PREPARATION2) {
 			damage *= 2
 		}
@@ -196,8 +200,10 @@ function Player() constructor {
 	}
 	
 	modifyHit = function(damage) {
-		if getEffect(EFFECTS.SAFE)
-			damage = floor(damage/2)
+		if getEffect(EFFECTS.VULNERABLE) {
+			damage *= 1.5
+			damage = ceil(damage)
+		}
 		
 		return damage
 	}
@@ -322,7 +328,7 @@ function Player() constructor {
 		
 		global.player.setEffect(EFFECTS.TIRED, false)
 		
-		if global.turn > 0 and !global.choice and instance_number(oEnemy) == 0
+		if global.turn > 0 and !global.choice and !enemiesRemain()
 		{
 			endBattle()
 		}
@@ -535,7 +541,7 @@ function Player() constructor {
 			}
 		}
 		
-		if instance_number(oEnemy) == 0
+		if !enemiesRemain()
 			endBattle()
 	}
 	
@@ -651,7 +657,7 @@ function Player() constructor {
 		var xs = 4
 		var ys = 4
 		if variable_global_exists("deck_ease") {
-			global.ease_channel = animcurve_get_channel(cvCardEaseIn2, "curve1")
+			global.ease_channel = animcurve_get_channel(cvCardEaseIn, "curve1")
 			global.ease = animcurve_channel_evaluate(global.ease_channel, global.deck_ease)
 			
 			xs += global.ease

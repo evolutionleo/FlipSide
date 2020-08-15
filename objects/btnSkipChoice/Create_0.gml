@@ -5,5 +5,5 @@ event_inherited();
 
 onClick = function() {
 	if layer_get_visible(layer) and global.choice
-		endChoice()
+		endCardChoice()
 }

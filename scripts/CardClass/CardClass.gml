@@ -2,7 +2,7 @@ _dependencies = [
 	CardsLib()
 ]
 
-function randomCard(props) { // For now, props are ignored
+function randomCard(_props) {
 	#region Rarity enum
 	
 	enum RARITY {
@@ -13,56 +13,59 @@ function randomCard(props) { // For now, props are ignored
 	}
 	#endregion
 	
-	if is_undefined(props)
-		props = {}
+	if is_undefined(_props)
+		_props = {}
+	
+	props = new Map(_props)
+	
 	
 	var names = variable_struct_get_names(global.Cards)
 	names = array_to_Array(names)
 	
-	costs = new Array()
 	
-	_pool = 0
+	rand = new Chance()
 	
+	
+	trace("Card list: %", names)
 	names.forEach(function(name) {
-		var cd = variable_struct_get(global.Cards, name)
+		cd = variable_struct_get(global.Cards, name)
+		valid = true
+		
+		// Check if it's fitting the props
+		props.forEach(function(value, prop) {
+			if variable_struct_get(cd, prop) != value {
+				valid = false
+				return -1
+			}
+		})
+		
+		if !valid
+			return -1
+		
+		trace("Adding card %", name)
+		
 		switch(cd.rarity) {
 			case RARITY.COMMON:
-				costs.append(1)
+				rand.addChoice(name, 1)
 				break
 			case RARITY.RARE:
-				costs.append(.5)  //2 times rarer than common
+				rand.addChoice(name, .5)  //2 times rarer than common
 				break
 			case RARITY.VERYRARE:
-				costs.append(.15) //~6 times rarer than common
+				rand.addChoice(name, .15) //~6 times rarer than common
 				break
 			case RARITY.LEGENDARY:
-				costs.append(.05) //20 times rarer than common
+				rand.addChoice(name, .05) //20 times rarer than common
 				break
 			default:
 				trace("WARNING! UNKNOWN RARITY IN CARD RANDOMIZATION!")
-				costs.append(1)
+				rand.addChoice(name, 1)
 				break
 		}
 	})
 	
-	_pool = costs.summ()
-	_rand = random(_pool)
-	_iterator = 0
 	
-	result = undefined
-	
-	names.forEach(function(name, idx) {
-		var cost = costs.get(idx)
-		if  (_rand > _iterator)	and
-			(_rand < _iterator + cost)
-		{
-			result = name
-			return 1 // Break out of forEach
-		}
-		
-		_iterator += cost
-	})
-	
+	result = rand.roll()
 	return new Card(result)
 }
 

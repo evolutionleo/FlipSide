@@ -7,3 +7,6 @@ hp = 15
 atk = 5
 
 pattern = [INTENTIONS.ATTACK]
+
+
+initializeEnemy()

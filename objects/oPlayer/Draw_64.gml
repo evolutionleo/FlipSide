@@ -2,9 +2,14 @@
 
 //var _x = bbox_left
 //var _y = bbox_bottom + 10
+
+var gui_wid = display_get_gui_width()
+var gui_hei = display_get_gui_height()
+
+
 var off = 2
 var _x = off
-var _y = room_height - off - MANA_HEIGHT
+var _y = gui_hei - off - MANA_HEIGHT
 
 var i = 0
 for(; i < global.player.max_mana; ++i) {

@@ -1,6 +1,9 @@
 /// @desc
 
-//with(oEnemy) {
-//	hit(hp)
-//}
-//endBattle()
+
+if DEBUG_MODE {
+	with(oEnemy) {
+		hit(hp)
+	}
+	endBattle()
+}

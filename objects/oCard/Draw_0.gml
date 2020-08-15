@@ -32,19 +32,6 @@ draw_set_font(fCard)
 
 //col = c_white
 
-#region Textbox highlight for debugging
-
-//var x1 = CARD_TEXTBOX_X - CARD_TEXTBOX_W/2
-//var x2 = CARD_TEXTBOX_X + CARD_TEXTBOX_W/2
-//var y1 = CARD_TEXTBOX_Y - CARD_TEXTBOX_H/2
-//var y2 = CARD_TEXTBOX_Y + CARD_TEXTBOX_H/2
-
-//draw_set_color(c_red)
-//draw_set_alpha(.5)
-//draw_rectangle(x1, y1, x2, y2, false)
-
-#endregion
-
 var pre = "[fCard][d#"+string(col)+"]"
 var post = "[/f]"
 
@@ -64,9 +51,25 @@ else {
 	_scale = 1/8
 }
 
-var xscale = image_xscale*_scale
-var yscale = image_yscale*_scale
-scribble_set_transform(xscale, yscale, 0)
+#region //Textbox highlight for debugging
+
+if DEBUG_MODE {
+	//var x1 = CARD_TEXTBOX_X - CARD_TEXTBOX_W/2 / CARD_XSCALE_MOD
+	//var x2 = CARD_TEXTBOX_X + CARD_TEXTBOX_W/2 / CARD_XSCALE_MOD
+	//var y1 = CARD_TEXTBOX_Y - CARD_TEXTBOX_H/2 / CARD_YSCALE_MOD
+	//var y2 = CARD_TEXTBOX_Y + CARD_TEXTBOX_H/2 / CARD_YSCALE_MOD
+	
+	//draw_set_color(c_red)
+	//draw_set_alpha(.5)
+	//draw_rectangle(x1, y1, x2, y2, false)
+}
+
+#endregion
+
+
+var xscale = image_xscale*_scale*CARD_XSCALE_MOD
+var yscale = image_yscale*_scale*CARD_YSCALE_MOD
+scribble_set_transform(xscale, yscale, image_angle)
 // /yscale for purpose
 scribble_set_wrap(CARD_TEXTBOX_W/yscale, CARD_TEXTBOX_H/yscale, false)
 scribble_set_box_align(fa_center, fa_middle, false)

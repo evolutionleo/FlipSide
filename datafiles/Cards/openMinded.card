@@ -7,7 +7,7 @@
 		var pos = global.player.last_played_pos;
 		global.player.discardRandom(2, pos);
 		global.exile = true;
-		variable_instance_set(target, \"friendly\", true);
+		target.switchSide(true);
 	",
 	"spr": "cdPlaceholder.png",
 	"targeting": false,

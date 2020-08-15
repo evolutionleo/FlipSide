@@ -6,11 +6,11 @@ List of all cards in game:
 
 \/
 (1) Water armor - Water Splash
-    Gain 5 hp. Draw 2 - Deal 7 damage. Draw 1
+    Gain 5 hp. Draw 2 - Deal 5 damage. Draw 1
 
 \/
 (2) Earth Block - Earthquake
-	Gain 10 hp. Gain Thorns (Damage taken next turn will also hurt enemies) - Deal 20 to all enemies
+	Gain 10 hp. Gain Thorns (Damage taken next turn will also hurtenemies) - Deal 20 to all enemies
 
 \/
 (0) Air Escape - Air Strike
@@ -18,27 +18,28 @@ List of all cards in game:
 
 \/
 (3) Growth - Wrath
-	Create 1 mana crystal - Destroy 1 mana crystal, deal 10 damage 5 times
+	Create 1 mana crystal - Destroy 1 mana crystal, deal 50 damage
 
 \/
 (1) Light - Darkness
-	Gain 15 hp for each enemy with full health - Kill an enemy. Recieve damage equal to its health
+	Heal 20 to everyone - Kill an enemy. Recieve damage equal to its health
 
-
+\/
 (1) Save - Sacrifice
-	Negate all damage recieved/dealt this turn - Lose 25 health, Create 1 mana generator
+	Cut by half all damage recieved/dealt this turn - Lose 50 health, Create 1 mana crystal
 
+\/
 (1) Best 4 last - Last time
     Next turn, gain 2 mana and draw 1 card - Discard your hand. Deal 5 damage for each card discarded.
 
 \/
-(0) Preparation - Preparation*
+(0) Preparation - Determination
 	Draw 1 card. Next card this turn costs 1 less - Next card this turn deals double damage
 
+\/
 (1) Healing death - Deadly healing
     This turn, heal 20 hp upon killing an enemy - Healing recieved this turn damages all enemies instead
 
-
-Сложна кодить (ну нахер)
-//(1) Confusion - Determination
-//    Interrupt an enemy. Apply 2 weak - Gain 2 strength and 2 mana.
+\/
+(1) Clarity - Confusion
+    Gain 2 strength and 2 mana - Interrupt an enemy. Apply 2 weak

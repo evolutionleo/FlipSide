@@ -1,0 +1,3 @@
+/// @desc
+
+global.transition = false

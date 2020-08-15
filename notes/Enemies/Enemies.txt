@@ -12,11 +12,6 @@ Small Slime
 5 atk
 
 
-Healer
-45 hp
-15 heal
-5 atk
-
 Dragon
 300 hp
 25 atk

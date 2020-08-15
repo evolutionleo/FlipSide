@@ -1,5 +1,9 @@
 /// @desc
 
+if !initialized
+	exit
+
+
 draw_self()
 
 #region Flash
@@ -12,7 +16,8 @@ if flash_alpha > 0 {
 #endregion
 #region Icons
 
-var bottom = y + 8*image_yscale
+//var bottom = y + 8*image_yscale
+var bottom = bbox_bottom
 
 var _x = bbox_left
 var _y = bottom + 4
@@ -23,27 +28,18 @@ var ys = ICON_HEIGHT / sprite_get_height(sEffectIcon)
 
 draw_get()
 
+//trace("Drawing intention: %", intention)
 
-if intention.type == INTENTIONS.ATTACK {
-	// attack icon
-	draw_sprite_ext(sIntentions, INTENTIONS.ATTACK, _x, _y, xs, ys, 0, c_white, 1.0)
 
-	draw_set_font(fIcon)
-	draw_set_color(c_white)
-	draw_text(_x, _y+ICON_HEIGHT/2, string(intention.value))
-
-	_x += ICON_WIDTH
-}
-else if intention == INTENTIONS.HEAL {
-	// heal icon
-	draw_sprite_ext(sIntentions, INTENTIONS.HEAL, _x, _y, xs, ys, 0, c_white, 1.0)
+// Intention Icon
+draw_sprite_ext(sIntentions, intention.type, _x, _y, xs, ys, 0, c_white, 1.0)
 	
-	draw_set_font(fIcon)
-	draw_set_color(c_white)
-	draw_text(_x, _y+ICON_HEIGHT/2, string(intention.value))
+draw_set_font(fIcon)
+draw_set_color(c_white)
+draw_text(_x, _y+ICON_HEIGHT/2, string(intention.value))
 
-	_x += ICON_WIDTH
-}
+_x += ICON_WIDTH
+
 
 id._x = _x
 id._y = _y
@@ -64,4 +60,35 @@ _y = id._y
 
 
 draw_reset()
+#endregion
+#region Healthbar
+
+var x1 = (bbox_left + bbox_right) / 2 - (max_hp) / 2
+var x2 = (bbox_left + bbox_right) / 2 + (max_hp) / 2
+var x3 = lerp(x1, x2, hp/max_hp)
+
+//var top = y - 8*image_yscale
+var top = bbox_top
+
+var y1 = top - 5 - 15
+var y2 = top - 5
+
+draw_get()
+
+draw_set_color(hpbar_color)
+draw_rectangle(x1, y1, x3, y2, false)
+draw_set_color(hpbar_textcolor)
+draw_rectangle(x1, y1, x2, y2, true)
+
+draw_set_halign(fa_left)
+draw_set_valign(fa_middle)
+
+var _x = x1 + 3
+var _y = (y1 + y2) / 2
+draw_set_font(fHealthbar)
+//draw_text(_x, _y, str_format("hp:%/%", hp, max_hp))
+draw_text(_x, _y, str_format("%/%", hp, max_hp))
+
+draw_reset()
+
 #endregion

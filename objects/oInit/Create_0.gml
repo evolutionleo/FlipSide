@@ -1,7 +1,16 @@
 /// @desc
 
-try {
-scribble_init("Fonts", "fCard", false)
-scribble_add_font("fCard")
+function __init__() {
+	static initialized = false
+	
+	if !initialized {
+		scribble_init("Fonts", "fCard", false)
+		scribble_add_font("fCard")
+		
+		display_set_gui_size(room_width, room_height)
+		
+		initialized = true
+	}
 }
-catch(e) {trace(e)}
+
+__init__()

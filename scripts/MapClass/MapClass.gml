@@ -5,22 +5,22 @@ function Map() constructor {
 	else
 		content = {}
 	
-	Set = function(key, val) {
+	set = function(key, val) {
 		variable_struct_set(self.content, key, val)
 		return self.content
 	}
 	
-	Get = function(key) {
+	get = function(key) {
 		return variable_struct_get(self.content, key)
 	}
 	
-	///@function	GetNames()
+	///@function	getNames()
 	///@description	returns an array of names of all variables that're stored in map
-	GetNames = function() {
+	getNames = function() {
 		return variable_struct_get_names(self.content)
 	}
 	
-	ForEach = function(func) {
+	forEach = function(func) {
 		names = variable_struct_get_names(self.content)
 		for(var i = 0; i < array_length(names); i++) {
 			name = names[i]
@@ -31,7 +31,7 @@ function Map() constructor {
 		}
 	}
 	
-	Exists = function(key) {
+	exists = function(key) {
 		return variable_struct_exists(self.content, key)
 	}
 }

@@ -4,8 +4,8 @@ _dependencies = [
 
 function inheritProps(_props) {
 	_props = new Map(_props)
-	_props.ForEach(function(val, name) {
-		props.Set(name, val)
+	_props.forEach(function(val, name) {
+		props.set(name, val)
 	})
 	delete _props
 }

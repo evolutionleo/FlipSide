@@ -7,28 +7,34 @@
 
 enum INTENTIONS {
 	ATTACK = 0,
-	HEAL = 1
+	HEAL = 1,
+	BUFF = 2,
+	DEBUFF = 3
 }
 
-
 friendly = false
+initialized = false
+acting = false
 
 #region Intentions + move patterns
 
-function Intention(type, value) constructor {
+function Intention(type, value, name) constructor {
 	if is_undefined(value) {
 		switch(type) {
 			case INTENTIONS.ATTACK:
-				value = atk
+				value = other.atk
 				break
 			case INTENTIONS.HEAL:
-				value = regen
+				value = other.regen
 				break
 		}
 	}
 	
 	self.type = type
 	self.value = value
+	
+	//if !is_undefined(name)
+		self.name = name
 }
 
 pattern = [INTENTIONS.ATTACK]
@@ -36,22 +42,60 @@ pattern_pos = 0
 pattern_loop = true
 pattern_random = false
 pattern_custom = false // use custom function
-pattern_next = pattern // 
+pattern_next = undefined
 
 intention = undefined
 
 
-// Convert to Intention data type
-pattern = array_to_Array(pattern)
-pattern.lambda(function(move) {
-	if is_array(move) {
-		return new Intention(move[0], move[1])
+// Very important
+initializeEnemy = function()
+{	
+	// Convert to Intention data type
+	pattern = array_to_Array(pattern)
+	pattern.lambda(function(move) {
+		if is_array(move) {
+			trace("Intention is an array")
+			return new Intention(move[0], move[1], move[2])
+		}
+		else if is_struct(move) and instanceof(move) == "Intention" {
+			// Lol reininialize
+		}
+		else {
+			return new Intention(move)
+		}
+	})
+	pattern = Array_to_array(pattern)
+	
+	if !is_undefined(pattern_next) {
+		#region Initialize pattern_next
+
+		// Convert to Intention data type
+		pattern_next = array_to_Array(pattern_next)
+		pattern_next.lambda(function(move) {
+			if is_array(move) {
+				return new Intention(move[0], move[1], move[2])
+			}
+			else if is_struct(move) and instanceof(move) == "Intention" {
+				// Lol reininialize
+			}
+			else {
+				return new Intention(move)
+			}
+		})
+		pattern_next = Array_to_array(pattern_next)
+
+		#endregion
 	}
-	else {
-		return new Intention(move)
+	
+	pattern_pos = -1
+	nextIntention()
+	initialized = true
+	
+	if !global.turners.exists(id) {
+		registerTurner(id)
 	}
-})
-pattern = Array_to_array(pattern)
+}
+
 
 
 getIntention = function() {
@@ -66,10 +110,12 @@ getRandomIntention = function() {
 }
 
 getNextIntention = function() {
+	var len = array_length(pattern)
+	
 	pattern_pos++
 	if pattern_pos >= len
 	{
-		if !array_equals(pattern, pattern_next) {
+		if !is_undefined(pattern_next) and !array_equals(pattern, pattern_next) {
 			pattern = pattern_next
 			pattern_pos = 0
 		}
@@ -80,7 +126,10 @@ getNextIntention = function() {
 		}
 	}
 	
-	return getIntention()
+	var ans = getIntention()
+	//trace("pattern: %, pos: %", pattern, pattern_pos)
+	//trace("next move is: %", ans)
+	return ans
 }
 
 
@@ -91,7 +140,6 @@ getCustomIntention = function() {
 
 // Changes the intention
 nextIntention = function() {
-	
 	if pattern_random {
 		intention = getRandomIntention()
 	}
@@ -103,12 +151,12 @@ nextIntention = function() {
 	}
 }
 
-attack = function() {
+attack = function(value) {
 	var opposite_team = new Array()
 	
 	if !friendly {
 		opposite_team.add(global.player)
-		trace("Slime id#% is hostile!", id)
+		//trace("Enemy id#% is hostile!", id)
 	}
 	
 	with(oEnemy) {
@@ -120,25 +168,43 @@ attack = function() {
 	var target = opposite_team.getRandom()
 	
 	if !is_undefined(target) {
-		deal(target, atk)
-		trace("Slime attacked!")
+		deal(target, value)
+		//trace("% attacked!", object_get_name(object_index))
 	}
 	else {
 		trace("No one to attack!")
 	}
 }
 
+buff = function(name, value) {
+	applyEffect(name, value)
+}
+
+debuff = function(name, value) {
+	global.player.applyEffect(name, value)
+}
+
 action = function() {
+	var type = intention.type
 	var value = intention.value
+	var name = intention.name
 	
-	switch(intention.type) {
+	switch(type) {
 		case INTENTIONS.ATTACK:
 			attack(value)
 			break
 		case INTENTIONS.HEAL:
 			heal(value)
 			break
+		case INTENTIONS.BUFF:
+			buff(name, value)
+			break
+		case INTENTIONS.DEBUFF:
+			debuff(name, value)
+			break
 	}
+	
+	//trace("Action complete. Action: %; Value: %", type, value)
 }
 
 #endregion
@@ -261,14 +327,51 @@ endTurn = function() {
 	passTurn()
 }
 
+//startTurn = function() {
+//	endTurn()
+//	processEffects()
+//}
+
 startTurn = function() {
-	endTurn()
 	processEffects()
+	
+	// Start animation
+	var postfix = ""
+	
+	if intention.type == INTENTIONS.ATTACK
+		postfix = "Attack"
+	else if intention.type == INTENTIONS.HEAL
+		postfix = "Heal"
+	else if intention.type == INTENTIONS.BUFF
+		postfix = "Buff"
+	else if intention.type == INTENTIONS.DEBUFF
+		postfix = "Debuff"
+	
+	var obj_name = object_get_name(object_index)
+	obj_name = string_copy(obj_name, 2, 999)
+	
+	// All slimes are the same!
+	if string_pos("Slime", obj_name) and !sprite_exists(asset_get_index("s"+obj_name+postfix)) {
+		obj_name = "Slime"
+	}
+	
+	
+	//sprite_index = asset_get_index(sprite_get_name(object_get_sprite(object_index))+postfix)
+	sprite_index = asset_get_index("s"+obj_name+postfix)
+	
+	//trace("Sprite: %", sprite_get_name(object_get_sprite(object_index))+postfix)
+	
+	if !sprite_exists(sprite_index)
+		sprite_index = object_get_sprite(object_index)
+	
+	
+	var audio = asset_get_index("a"+obj_name+postfix)
+	if audio_exists(audio)
+		audio_play_sound(audio, 30, false)
+	
+	
+	acting = true
 }
-
-
-registerTurner(id)
-nextIntention()
 
 #endregion
 #region Deal with health
@@ -313,6 +416,18 @@ heal = function(healing) {
 	
 	create_text({x: x, y: y-8*image_yscale, text: "+"+string(healing), color: c_lime, font: fDamageNumber, spd: {x: 0, y: -1}, lifetime: 60, fade_offset: 40})
 }
+
+#endregion
+#region Visual additions
+
+hpbar_color = c_red
+hpbar_textcolor = c_white
+blood_color = c_red
+
+#endregion
+#region Tweening
+
+ease_pos = 0
 
 #endregion
 

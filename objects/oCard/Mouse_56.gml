@@ -43,7 +43,7 @@ if global.dragging == id
 		}
 		else if state == CARD_STATE.CHOICE {
 			global.player.deck.append(my_card)
-			endChoice()
+			endCardChoice()
 		}
 		//instance_destroy()
 	}

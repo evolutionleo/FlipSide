@@ -57,7 +57,7 @@ if !flipping
 
 
 ease_pos = clamp(ease_pos, 0, .3)
-ease_channel = animcurve_get_channel(cvCardEaseIn2, "curve1")
+ease_channel = animcurve_get_channel(cvCardEaseIn, "curve1")
 scale = animcurve_channel_evaluate(ease_channel, ease_pos)
 
 image_xscale = (CARD_WIDTH / sprite_get_width(sprite_index) + scale) * flip

@@ -8,6 +8,8 @@
 //exit
 
 
+//trace("Card id#%, target: %", id, target)
+
 
 if state == CARD_STATE.HAND or state == CARD_STATE.CHOICE
 {
@@ -69,12 +71,15 @@ if index != -1
 			else if targeting and y < global.playy
 			{
 				target = instance_nearest(x, y, oEnemy)
+				
 				if distance_to_object(target) < 128 {
-					target.image_xscale = 6
-					target.image_yscale = 6
-					target.image_blend = c_red
+					// Moved everything to enemy begin step event
+					
+					//target.ease_pos += .02
+					//target.image_blend = c_red
 				}
 				else {
+					//target.ease_pos -= .02
 					target = noone
 				}
 			}
@@ -169,11 +174,11 @@ flip = animcurve_channel_evaluate(flip_channel, flip_pos)
 
 
 ease_pos = clamp(ease_pos, 0, .3)
-ease_channel = animcurve_get_channel(cvCardEaseIn2, "curve1")
+ease_channel = animcurve_get_channel(cvCardEaseIn, "curve1")
 scale = animcurve_channel_evaluate(ease_channel, ease_pos)
 
-image_xscale = (CARD_WIDTH / sprite_get_width(sprite_index) + scale) * flip
-image_yscale = CARD_HEIGHT / sprite_get_height(sprite_index) + scale
+image_xscale = ( BASE_CARD_XSCALE + (scale / CARD_XSCALE_MOD) ) * flip
+image_yscale =   BASE_CARD_YSCALE + (scale / CARD_YSCALE_MOD)
 
 
 x = lerp(x, targetx, interpolation)
@@ -182,6 +187,8 @@ y = lerp(y, targety, interpolation)
 } // other state 
 else if state == CARD_STATE.DISCARD
 {
+	target = noone
+	
 	interpolation = .1
 	
 	x = lerp(x, targetx, interpolation)
@@ -195,8 +202,30 @@ else if state == CARD_STATE.DISCARD
 	if point_distance(x, y, targetx, targety) <= 5 || image_alpha <= 0.01 || image_xscale <= 0.01
 		instance_destroy()
 }
+else if state == CARD_STATE.CHOICE_END
+{	
+	target = noone
+	
+	interpolation = .1
+	
+	x = lerp(x, targetx, interpolation)
+	y = lerp(y, targety, interpolation)
+	
+	image_xscale *= .9
+	image_yscale = image_xscale
+	
+	image_alpha *= .9
+	
+	image_angle += 3
+	
+	
+	if image_alpha <= 0.01 || image_xscale <= 0.01
+		instance_destroy()
+}
 else if state == CARD_STATE.EXILE
 {
+	target = noone
+	
 	interpolation = .1
 	
 	x = lerp(x, targetx, interpolation)

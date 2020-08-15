@@ -4,7 +4,11 @@
     "spr": "cdEarth.png",
     "cost": 2,
     "effect": "global.player.heal(10); global.player.applyEffect(1, true, -1);",
-    "side_effect": "with(oEnemy) { global.player.deal(id, 20); }",
+    "side_effect": "
+    with(oEnemy) {
+        if (!id.friendly)
+            global.player.deal(id, 20);
+    }",
     "targeting": false,
     "side_targeting": false,
     "text": "Heal [heal=10]\nApply Thorns",

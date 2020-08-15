@@ -1,0 +1,26 @@
+- Enter Location
+
+3x {
+- Battle
+- Transition Screen
+- Choose a card
+- Transition Screen 2
+}
+1x {
+- Chest
+- Choose a veryrare card 
+}
+4x {
+- Battle
+- Transition Screen
+- Choose a card
+- Transition Screen 2
+}
+1x {
+- Boss Battle
+- Victorious Transition Screen
+- Choose a legendary card
+- Transition Screen 2
+}
+
+- Leave Location

@@ -1,4 +1,6 @@
-// Idea: child class CleanArray(), with all methods not affecting the original array
+///!!!
+/// For examples see Tests.gml
+///!!!
 
 
 ///@function	Array(*item1, *item2, ...)
@@ -8,35 +10,63 @@ function Array() constructor {
 	content = [];
 	size = 0;
 	
+	// Change these if you want to avoid crashes
+	// (it may or may not cause unexpected consequences)
+	#macro ARRAY_SHOW_ERROR true
+	#macro ARRAY_SHOW_WARNING true
 	
-	///@function	append(value)
-	///@description	Adds a value to the end of the array
+	
+	__throw = function(err) {
+		if ARRAY_SHOW_ERROR {
+			throw err;
+		}
+		else if ARRAY_SHOW_WARNING {
+			show_debug_message("Array error: "+string(err))
+		}
+	}
+	
+	///@function	append(value, value2, ..)
+	///@description	Adds (a) value(s) to the end of the array
 	///@param		{any} value
-	append = function(value) {
-		content[self.size] = value;
-		++size;
+	static append = function(value) {
+		for(var i = 0; i < argument_count; ++i) {
+			var val = argument[i]
+			content[size] = val;
+			++size;
+		}
 		
 		return self;
 	}
 	
-	///@function	add(value)
+	///@function	add(value, value2, ..)
 	///@description Mirrors append() method
 	///@param		{any} value
-	add = function(value) {
-		append(value)
+	static add = function(value) {
+		for(var i = 0; i < argument_count; ++i) {
+			var val = argument[i]
+			content[size] = val;
+			++size;
+		}
+		
+		return self;
 	}
 	
 	///@function	concat(other)
 	///@description	Adds every element of the second array to this array
-	///@param		{Array} other
-	concat = function(_other) {
+	///@param		{Array/array} other
+	static concat = function(_other) {
 		if(!is_Array(_other)) {
-			throw "TypeError: trying to concat "+typeof(_other)+" with Array";
-			return self;
+			if is_array(_other) {
+				_other = array_to_Array(_other)
+			}
+			else {
+				__throw("TypeError: trying to concat "+typeof(_other)+" with Array");
+				return self;
+			}
 		}
 		
 		for(var i = 0; i < _other.size; i++) {
-			self.append(_other.get(i));
+			append(_other.get(i));
 		}
 		
 		return self;
@@ -44,10 +74,10 @@ function Array() constructor {
 	
 	///@function	copy()
 	///@description	Returns a copy of the array object
-	copy = function() {
+	static copy = function() {
 		ans = new Array();
 		
-		self.forEach(function(el) {
+		forEach(function(el) {
 			ans.append(el);
 		});
 		
@@ -56,57 +86,59 @@ function Array() constructor {
 	
 	///@function	clear()
 	///@description	clears an array object
-	clear = function() {
-		self.content = [];
-		self.size = 0;
+	static clear = function() {
+		content = [];
+		size = 0;
+		
+		return self;
 	}
 	
 	///@function	remove(pos)
 	///@description	removes the value at given position
 	///@param		{real} pos
-	remove = function(pos) {
+	static remove = function(pos) {
 		if(pos < 0)
 			pos += size;
 		
 		if(size == 0) {
-			throw "Error: trying to remove value from an empty Array";
+			__throw("Error: trying to remove value from an empty Array");
 			return self;
 		}
 		else if(pos < 0 or pos > size - 1) {
-			throw "Error: index "+string(pos)+" is out of range [0, "+string(size-1)+"]";
+			__throw( "Error: index "+string(pos)+" is out of range [0, "+string(size-1)+"]");
 			return self;
 		}
 		
-		var part1 = self.slice(0, pos);
-		var part2 = self.slice(pos+1);
+		var part1 = slice(0, pos);
+		var part2 = slice(pos+1);
 		
 		part1.concat(part2);
 		
-		self.content = part1.content;
-		self.size--;
+		content = part1.content;
+		size--;
 		
 		return self;
 	}
 	
 	///@function	empty()
 	///@description	Returns true if the array is empty and false otherwise
-	empty = function() {
-		return self.size == 0;
+	static empty = function() {
+		return size == 0;
 	}
 	
 	///@function	equal(other)
 	///@description	Returns true if arrays are equal and false otherwise
-	equal = function(_other) {
+	static equal = function(_other) {
 		if(!is_Array(_other)) {
-			throw "TypeError: trying to compare "+typeof(_other)+" with Array";
+			__throw( "TypeError: trying to compare "+typeof(_other)+" with Array");
 			return false;
 		}
 		
-		if(self.size != _other.size)
+		if(size != _other.size)
 			return false;
 		
-		for(var i = 0; i < self.size; i++) {
-			var c1 = self.get(i);
+		for(var i = 0; i < size; i++) {
+			var c1 = get(i);
 			var c2 = _other.get(i);
 			
 			
@@ -131,11 +163,11 @@ function Array() constructor {
 	
 	///@function	exists(value)
 	///@description	Returns true if the value exists in the array and false otherwise
-	exists = function(_val) {
+	static exists = function(_val) {
 		val = _val;
 		ans = false;
 		
-		self.forEach(function(x, pos) {
+		forEach(function(x, pos) {
 			if(x == val) {
 				ans = true;
 				return 1; //Break out of forEach()
@@ -151,16 +183,16 @@ function Array() constructor {
 	///				Function func gets (x, *pos) as input
 	///				Note: Clean function. Does not affect the original array!
 	///@param		{function} func
-	filter = function(_func) {
+	static filter = function(_func) {
 		func = _func;
 		ans = new Array();
 		
-		self.forEach(function(x, pos) {
+		forEach(function(x, pos) {
 			if(func(x, pos))
 				ans.append(x);
 		});
 		
-		//self.content = ans.content;
+		//content = ans.content;
 		//return self;
 		return ans;
 	}
@@ -168,11 +200,11 @@ function Array() constructor {
 	///@function	find(value)
 	///@description	finds a value and returns its position. -1 if not found
 	///@param		{any} value
-	find = function(_val) {
+	static find = function(_val) {
 		val = _val;
 		ans = -1;
 		
-		self.forEach(function(x, pos) {
+		forEach(function(x, pos) {
 			if(x == val) {
 				ans = pos;
 				return 1; //Break out of forEach()
@@ -185,11 +217,11 @@ function Array() constructor {
 	///@function	findAll(value)
 	///@description	finds all places a value appears and returns an Array with all the positions. empty set if not found
 	///@param		{any} value
-	findAll = function(_val) {
+	static findAll = function(_val) {
 		val = _val;
 		ans = new Array();
 		
-		self.forEach(function(x, pos) {
+		forEach(function(x, pos) {
 			if(x == val)
 				ans.append(pos);
 		});
@@ -199,18 +231,18 @@ function Array() constructor {
 
 	///@function	first()
 	///@description	Returns the first value of the array
-	first = function() {
-		return self.get(0);
+	static first = function() {
+		return get(0);
 	}
 	
 	///@function	forEach(func)
 	///@description	Loops through the array and runs the function with each element as an argument
 	///				Function func gets (x, *pos) as arguments
-	///				Note: Loop will stop immediately if the function returns anything but zero
+	///				Note: Loop will stop immediately if the function returns anything but zero or undefined
 	///@param		{function} func(x, *pos)
-	forEach = function(func) {
-		for(var i = 0; i < self.size; i++) {
-			var res = func(self.get(i), i)
+	static forEach = function(func) {
+		for(var i = 0; i < size; i++) {
+			var res = func(get(i), i)
 			if(!is_undefined(res) and res != 0) {
 				break;
 			}
@@ -222,16 +254,16 @@ function Array() constructor {
 	///@function	get(pos)
 	///@description	Returns value at given pos
 	///@param		{real} pos
-	get = function(pos) {
+	static get = function(pos) {
 		if(pos < 0)
 			pos += size; //i.e. Array.get(-1) = Array.last()
 		
 		if(size == 0) {
-			throw "Error: trying to achieve value from empty Array";
+			__throw( "Error: trying to achieve value from empty Array");
 			return undefined;
 		}
 		else if(pos < 0 or pos > size-1) {
-			throw "Error: index "+string(pos)+" is out of range [0, "+string(size-1)+"]";
+			__throw( "Error: index "+string(pos)+" is out of range [0, "+string(size-1)+"]");
 			return undefined;
 		}
 		
@@ -243,23 +275,23 @@ function Array() constructor {
 	///@description	inserts a value into the array at given position
 	///@param		{real} pos
 	///@param		{any} value
-	insert = function(pos, value) {
+	static insert = function(pos, value) {
 		if(pos < 0)
 			pos += size;
 		
 		if(pos < 0 or (pos > size-1 and size != 0)) {
 			show_debug_message("Warning: trying to insert a value outside of the array. Use Array.set() or Array.append() instead");
-			return self.set(pos, value);
+			return set(pos, value);
 		}
 		
-		var part1 = self.slice(0, pos);
-		var part2 = self.slice(pos);
+		var part1 = slice(0, pos);
+		var part2 = slice(pos);
 		
 		part1.append(value);
 		part1.concat(part2);
 		
-		self.content = part1.content;
-		self.size++;
+		content = part1.content;
+		size++;
 		
 		return self;
 	}
@@ -267,9 +299,9 @@ function Array() constructor {
 	///@function	lambda(func)
 	///@description	Loops through the array and applies the function to each element
 	///@param		{function} func(x, *pos)
-	lambda = function(func) {
-		for(var i = 0; i < self.size; i++) {
-			self.set(i, func(self.get(i), i) );
+	static lambda = function(func) {
+		for(var i = 0; i < size; i++) {
+			set(i, func(get(i), i) );
 		}
 		
 		return self;
@@ -277,18 +309,18 @@ function Array() constructor {
 	
 	///@function	last()
 	///@description	Returns the last value of the array
-	last = function() {
-		return self.get(-1);
+	static last = function() {
+		return get(-1);
 	}
 	
 	///@function	_max()
 	///@description	Returns a maximum of the array. Only works with numbers
-	_max = function() {
-		ans = self.get(0);
+	static _max = function() {
+		ans = get(0);
 		
-		self.forEach(function(x) {
+		forEach(function(x) {
 			if(!is_numeric(x)) {
-				throw "TypeError: Trying to calculate maximum of "+typeof(x)+"";
+				__throw( "TypeError: Trying to calculate maximum of "+typeof(x)+"");
 				ans = undefined;
 				return 1 // Break out of forEach()
 			}
@@ -302,12 +334,12 @@ function Array() constructor {
 	
 	///@function	_min()
 	///@description	Returns a minimum of the array. Only works with numbers
-	_min = function() {
-		ans = self.content[0];
+	static _min = function() {
+		ans = content[0];
 		
-		self.forEach(function(x) {
+		forEach(function(x) {
 			if(!is_numeric(x)) {
-				throw "TypeError: Trying to calculate minimum of "+typeof(x)+"";
+				__throw( "TypeError: Trying to calculate minimum of "+typeof(x)+"");
 				ans = undefined;
 				return 1
 			}
@@ -324,11 +356,11 @@ function Array() constructor {
 	///@note		IMPORTANT! Don't try to use this with data structures, as results may be unpredictable
 	///				(Use forEach() with your own logic instead)
 	///@param		{any} value
-	number = function(_val) {
+	static number = function(_val) {
 		val = _val;
 		ans = 0;
 		
-		self.forEach(function(x, pos) {
+		forEach(function(x, pos) {
 			if(x == val)
 				ans++;
 		});
@@ -338,23 +370,23 @@ function Array() constructor {
 	
 	///@function	pop()
 	///@description	removes a value from the end of the array and returns it
-	pop = function() {
-		ans = self.last();
-		if(self.empty()) {
-			throw "Error: trying to pop value from empty Array";
+	static pop = function() {
+		ans = last();
+		if(empty()) {
+			__throw( "Error: trying to pop value from empty Array");
 			return undefined;
 		}
 		
-		self.remove(-1);
+		remove(-1);
 		
 		return ans;
 	}
 	
 	///@function	popBack()
 	///@description	removes a value from the beginning of the array and returns it
-	popBack = function() {
-		ans = self.first();
-		self.remove(0);
+	static popBack = function() {
+		ans = first();
+		remove(0);
 		
 		return ans;
 	}
@@ -362,19 +394,19 @@ function Array() constructor {
 	///@function	pushBack(value)
 	///@description	inserts a value to the beginning of the array
 	///@param		{any} value
-	pushBack = function(val) {
-		self.insert(0, val);
+	static pushBack = function(val) {
+		insert(0, val);
 	}
 	
 	///@function	getRandom()
 	///@description Returns a random element from the array
-	getRandom = function() {
-		var idx = irandom(self.size-1)
-		if self.empty() {
+	static getRandom = function() {
+		var idx = irandom(size-1)
+		if empty() {
 			var ans = undefined
 		}
 		else {
-			var ans = self.get(idx)
+			var ans = get(idx)
 		}
 		
 		return ans
@@ -383,17 +415,17 @@ function Array() constructor {
 	///@function	resize(size)
 	///@description	resizes the array. Sizing up leads to filling the empty spots with zeros
 	///@param		{real} size
-	resize = function(size) {
+	static resize = function(size) {
 		if(size < 0) {
-			throw "Error: array size cannot be negative";
+			__throw( "Error: array size cannot be negative");
 			return self;
 		}
 		
-		while(self.size < size) {
-			self.append(0);
+		while(size < size) {
+			append(0);
 		}
-		while(self.size > size) {
-			self.pop();
+		while(size > size) {
+			pop();
 		}
 		
 		return self;
@@ -401,21 +433,21 @@ function Array() constructor {
 	
 	///@function	reverse()
 	///@description	reverses the array, affecting it
-	reverse = function() {
+	static reverse = function() {
 		ans = new Array();
-		self.forEach(function(element, pos) {
+		forEach(function(element, pos) {
 			ans.set(size-pos-1, element);
 		});
 		
-		self.content = ans.content;
+		content = ans.content;
 		return self;
 	}
 	
 	///@function	reversed()
 	///@description	Returns reversed version of the array, without affecting the original
-	reversed = function() {
+	static reversed = function() {
 		ans = new Array();
-		self.forEach(function(element, pos) {
+		forEach(function(element, pos) {
 			ans.set(size-pos-1, element);
 		});
 		
@@ -426,7 +458,7 @@ function Array() constructor {
 	///@description	sets value in the array at given index
 	///@param		{real} pos
 	///@param		{any} item
-	set = function(pos, value) {
+	static set = function(pos, value) {
 		if(pos < 0)
 			pos += size;
 		
@@ -443,12 +475,12 @@ function Array() constructor {
 	///@description	Returns a slice from the array with given boundaries. If begin > end - returns reversed version
 	///@param		{real} begin
 	///@param		{real} end
-	slice = function(_begin, _end) {
+	static slice = function(_begin, _end) {
 		if(is_undefined(_begin))
 			_begin = 0;
 		
 		if(is_undefined(_end))
-			_end = self.size;
+			_end = size;
 		
 		ans = new Array();
 		
@@ -470,27 +502,27 @@ function Array() constructor {
 	///@function	sort(func, *startpos, *endpos)
 	///@description	Bubble sorts through the array in given range, comparing values using provided function. 
 	///Function gets (a, b) as input and must return True if A has more priority than B and False otherwise.
-	///@example myarray.sort(function(a, b) { return a > b }) will sort myarray in descending order
-	///@param		{function} func(a, b)
+	///@example myarray.sort(function(a, b) { return a > b }) will sort 'myarray' in descending order
+	///@param		{function} func
 	///@param		{real} *startpos	Default - 0
 	///@param		{real} *endpos		Default - size
-	sort = function(compare, _begin, _end) {
+	static sort = function(compare, _begin, _end) {
 		if(is_undefined(_begin))
 			_begin = 0;
 		
 		if(is_undefined(_end))
-			_end = self.size;
+			_end = size;
 		
 		
 		if(!is_numeric(_begin) or round(_begin) != _begin or !is_numeric(_end) or round(_end) != _end) {
-			throw "TypeError: sort boundaries must be integers";
+			__throw( "TypeError: sort boundaries must be integers");
 			return self;
 		}
 		
 		for(var i = _begin; i < _end; i++) {	// Bubble sort LUL
 			for(var j = i; j > _begin; j--) {
-				if(compare(self.get(j), self.get(j-1))) {
-					self.swap(j, j-1);
+				if(j > 0 and compare(get(j), get(j-1))) {
+					swap(j, j-1);
 				}
 			}
 		}
@@ -498,45 +530,53 @@ function Array() constructor {
 		return self;
 	}
 	
+	#macro SORT_ASCENDING  (function(a, b) { return a < b })
+	#macro SORT_DESCENDING (function(a, b) { return a > b })
+	
+	
+	///@function	sorted(func, *startpos, *endpos)
+	///@description Mirrors .sort() function, but doesn't affect the original Array
+	static sorted = function(compare, _begin, _end) {
+		var ans = copy() // self.copy()
+		return ans.sort(compare, _begin, _end)
+	}
+	
 	///@function	shuffle()
 	///@description shuffles the array (randomly replaces every element)
-	shuffle = function() {
-		//ans = new Array()
-		//ans.resize(self.size)
-		
-		//var list = ds_list_from_Array(self)
-		var list = ds_list_create()
-		for(var i = 0; i < size; i++) 
-		{
-			ds_list_add(list, content[i])
+	static shuffle = function() {
+		// Knuth shuffle implementation
+		for(var i = size-1; i > 0; --i) {
+			var j = irandom_range(0, i)
+			swap(i, j)
 		}
 		
-		ds_list_shuffle(list)
-		
-		ans = ds_list_to_Array(list)
-		ds_list_destroy(list)
-		
-		content = Array_to_array(ans)
 		
 		return self
 	}
 	
-	///@function	summ()
-	///@description	Returns the summ of all the elements of the array. concats strings.
+	///@function	shuffled()
+	///@description	clean version of .shuffle()
+	static shuffled = function() {
+		var ans = copy();
+		return ans.shuffle();
+	}
+	
+	///@function	sum()
+	///@description	Returns the sum of all the elements of the array. concats strings.
 	///NOTE: Works only with strings or numbars and only if all the elements are the same type.
-	summ = function() {
-		if(is_string(self.get(0)))
+	static sum = function() {
+		if(is_string(get(0)))
 			ans = "";
-		else if(is_numeric(self.get(0)))
+		else if(is_numeric(get(0)))
 			ans = 0;
 		else {
-			throw "TypeError: trying to summ up elements, that aren't strings or reals";
+			__throw( "TypeError: trying to sum up elements, that aren't strings or reals");
 			return undefined;
 		}
 		
-		self.forEach(function(el) {
+		forEach(function(el) {
 			if(typeof(el) != typeof(ans))
-				throw "TypeError: Array elements aren't the same type: got "+typeof(el)+", "+typeof(ans)+" expected.";
+				__throw( "TypeError: Array elements aren't the same type: got "+typeof(el)+", "+typeof(ans)+" expected.");
 			
 			ans += el;
 		});
@@ -548,20 +588,20 @@ function Array() constructor {
 	///@description	swaps 2 values at given positions
 	///@param		{real} pos1
 	///@param		{real} pos2
-	swap = function(pos1, pos2) {
-		var temp = self.get(pos1);
-		self.set(pos1, self.get(pos2));
-		self.set(pos2, temp);
+	static swap = function(pos1, pos2) {
+		var temp = get(pos1);
+		set(pos1, get(pos2));
+		set(pos2, temp);
 		
 		return self;
 	}
 	
 	///@function	unique()
-	///@description	Returns an Array object, containing a copy of this, but without repeats
-	unique = function() {
+	///@description	Returns a copy of this Array object, deleting all duplicates
+	static unique = function() {
 		ans = new Array();
 		
-		self.forEach(function(x) {
+		forEach(function(x) {
 			if(!ans.exists(x))
 				ans.append(x);
 		});
@@ -569,17 +609,16 @@ function Array() constructor {
 		return ans;
 	}
 
-	
 	for(var i = 0; i < argument_count; i++)
-		self.append(argument[i])
+		append(argument[i])
 	
 	
-	toString = function() {
+	static toString = function() {
 		str = "[";
 		
-		self.forEach(function(el, i) {
+		forEach(function(el, i) {
 			str += string(el);
-			if(i < size-1)
+			if(i < size-1)   
 				str += ", ";
 		});
 		
@@ -589,12 +628,82 @@ function Array() constructor {
 	}
 }
 
+
+///@function	Range(min, max, step)
+///@function	Range(min, max)
+///@function	Range(max)
+///@description Returns a new Array object, containing numbers in certain range
+function Range() : Array() constructor {
+	
+	if argument_count > 1 {
+		var mi = argument[0];
+		var ma = argument[1];
+	}
+	else {
+		var mi = 0;
+		var ma = argument[0];
+	}
+	
+	if argument_count > 2 {
+		var step = argument[2];
+	}
+	else {
+		var step = 1;
+	}
+	
+	// Iterate!
+	if mi < ma // Normal
+	{
+		for(var i = mi; i <= ma; i += step) {
+			append(i);
+		}
+	}
+	else { // Reversed
+		for(var i = mi; i >= ma; i += step) {
+			append(i);
+		}
+	}
+	
+	return self
+}
+
+
+///@function	Iterator(arr)
+///@description	Constructs an iterator object to allow easier iteration through Array's
+function Iterator(arr) constructor {
+	self.index = -1;
+	self.value = undefined;
+	self.array = arr
+	
+	///@function	next()
+	next = function() {
+		index++;
+		try {
+			value = array.get(index);
+		}
+		catch(e) {
+			value = undefined;
+		}
+		
+		return value;
+	}
+	
+	get = function() {
+		return value;
+	}
+	
+	
+	return self;
+}
+
+// Helper functions to convert between data types
+
 ///@function	array_to_Array(array)
 ///@description	Returns an instance of Array object with all the contents of an array
 ///@param		{array}	array
 function array_to_Array(array) {
 	if(!is_array(array)) {
-		throw "TypeError: expected array, got "+typeof(array);
+		__throw( "TypeError: expected array, got "+typeof(array));
 		return undefined;
 	}
 	
@@ -612,7 +721,7 @@ function array_to_Array(array) {
 ///@param		{real} list
 function ds_list_to_Array(list) {
 	if(!ds_exists(list, ds_type_list)) {
-		throw "Error: ds_list with given index does not exist";
+		__throw( "Error: ds_list with given index does not exist");
 		return undefined;
 	}
 	
@@ -629,7 +738,7 @@ function ds_list_to_Array(list) {
 ///@description	Checks if a variable holds reference to an Array object
 ///@param		{any} arr
 function is_Array(Arr) {
-	return is_struct(Arr) and instanceof(Arr) == "Array";
+	return is_struct(Arr) and (instanceof(Arr) == "Array" or instanceof(Arr) == "Range");
 }
 
 ///@function	Array_to_array(Arr)
@@ -637,7 +746,7 @@ function is_Array(Arr) {
 ///@param		{Array} Arr
 function Array_to_array(Arr) {
 	if !is_Array(Arr) {
-		throw "Error in function Array_to_array(): expected Array(), got "+typeof(Arr)
+		__throw("Error in function Array_to_array(): expected Array(), got "+typeof(Arr))
 		return undefined;
 	}
 	return Arr.content
@@ -648,7 +757,7 @@ function Array_to_array(Arr) {
 ///@param		{Array} Arr
 function ds_list_from_Array(Arr) {
 	if !is_Array(Arr) {
-		throw "Error in function ds_list_from_Array(): expected Array(), got "+typeof(Arr)
+		__throw("Error in function ds_list_from_Array(): expected Array(), got "+typeof(Arr))
 		return undefined;
 	}
 	

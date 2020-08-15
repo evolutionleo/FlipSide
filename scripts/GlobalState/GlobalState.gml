@@ -1,3 +1,5 @@
+#region Status effects
+
 enum EFFECTS {
 	THORNS = 1,
 	STRENGTH = 2,
@@ -11,6 +13,7 @@ enum EFFECTS {
 	REST = 10,
 	WEAK = 11,
 	DOUBLE_HEALING = 12,
+	VULNERABLE = 13,
 	
 	
 	__SIZE
@@ -30,9 +33,10 @@ function Effect(effect, pow, pers) constructor {
 	self.pers = pers
 }
 
+#endregion
 
 
-function addChoice(_card) {
+function addCardChoice(_card) {
 	global.choices.append(_card)
 	_x = CHOICE_X - (global.choices.size - 1) * (CARD_WIDTH + CARD_OFFX) / 2
 	_y = CHOICE_Y
@@ -49,7 +53,7 @@ function addChoice(_card) {
 	card.state = CARD_STATE.CHOICE
 }
 
-function choiceExists(name) {
+function cardChoiceExists(name) {
 	// Not ForEach() to avoid using "global" variables
 	for(var i = 0; i < global.choices.size; ++i)
 	{
@@ -62,7 +66,7 @@ function choiceExists(name) {
 	return false
 }
 
-function createChoice() {
+function createCardChoice() {
 	global.choice = true
 	layer_set_visible(layer_get_id("Choice"), true)
 	global.choices = new Array()
@@ -72,21 +76,31 @@ function createChoice() {
 		do {
 			var card = randomCard({})
 		}
-		until(!choiceExists(card.name))
+		until(!cardChoiceExists(card.name))
 		
-		addChoice(card)
+		addCardChoice(card)
 	}
 }
 
-function endChoice() {
+function endCardChoice() {
+	with(oCard)
+	{
+		if state == CARD_STATE.CHOICE {
+			targetx = x
+			targety = y
+			state = CARD_STATE.CHOICE_END
+			//instance_destroy()
+		}
+	}
+	
+	startTransition(TransitionSlideOut, function() { endCardChoice2() })
+}
+
+function endCardChoice2() {
 	global.choice = false
 	layer_set_visible(layer_get_id("Choice"), false)
-	with(oCard)
-	 {
-		 if state == CARD_STATE.CHOICE
-			instance_destroy()
-	 }
-	 startBattle()
+	
+	startBattle()
 }
 
 function startBattle() {
@@ -135,19 +149,24 @@ function startBattle() {
 			set = [oSlime]
 		break
 		case 3:
-			set = [oSlime, oSlime, oSmallSlime]
+			//set = [oSlime, oSlime, oSmallSlime]
+			set = [oGoblin]
 		break
 		case 4:
-			set = [oBigSlime, oSlime, oSlime]
+			//set = [oBigSlime, oSlime, oSlime]
+			set = [oGoblin, oGoblin]
 		break
 		case 5:
-			set = [oPinkSlime]
+			//set = [oPinkSlime]
+			set = [oBat, oGoblin]
 		break
 		case 6:
-			set = [oPinkSlime, oBigSlime]
+			//set = [oPinkSlime, oBigSlime]
+			set = [oBat]
 		break
 		case 7:
-			set = [oBlueSlime]
+			//set = [oBlueSlime]
+			set = [oBat, oBat]
 		break
 		case 8:
 			set = [oPinkSlime, oBlueSlime]
@@ -191,6 +210,17 @@ function startBattle() {
 	#endregion
 }
 
+function enemiesRemain() {
+	var counter = 0
+	with(oEnemy) {
+		if !friendly {
+			counter++
+		}
+	}
+	
+	return counter
+}
+
 function endBattle() {
 	global.player.discardHand()
 	global.player.clearEffects()
@@ -209,5 +239,11 @@ function endBattle() {
 		return card
 	})
 	
-	createChoice()
+	
+	with(oEnemy) {
+		die()
+	}
+	
+	startTransition(TransitionSlideIn, function() { createCardChoice() })
+	trace("choice began = %", global.choice ? "true" : "false")
 }

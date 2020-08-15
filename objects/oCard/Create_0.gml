@@ -3,6 +3,7 @@
 enum CARD_STATE {
 	HAND,
 	CHOICE,
+	CHOICE_END,
 	DISCARD,
 	INACTIVE,
 	EXILE
@@ -13,6 +14,7 @@ state = CARD_STATE.HAND
 
 index = -1
 my_card = -1
+target = noone
 
 ease_pos = 0
 flip_pos = 0
@@ -46,3 +48,5 @@ play_sounds = new Array(aCardPlay1)
 //for(var snd = aCardHover1; snd <= aCardHover4; ++snd) {
 	//hover_sounds.Append(snd)
 //}
+
+image_speed = 0

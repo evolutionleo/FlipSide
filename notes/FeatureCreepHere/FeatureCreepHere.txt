@@ -1,0 +1,12 @@
+
+Forge:
+- Encountered instead of chests (?)
+- A fixed pool of card upgrades (gems)
+- Each card has a random amount of upfrade slots (from 0 to 3)
+- Each forge selects from that pool and allows player to choose from it
+- The Forgekeeper binds the gem(s) onto chosen card(s)
+pool:
+- Reduce card cost by 1 (costs 2 slots)
+- Increase damage by 5
+- Increase heal by 5
+- Increase draw by 1
