@@ -11,17 +11,20 @@ function startTransition(transition, foo) {
 	
 	global.transition_func = foo
 	global.peak_time = 0
+	global.finish_time = 0
 	
 	transition()
 	
+	//setTimeout(oTransition, TransitionEnd, global.peak_time)
 	setTimeout(oTransition, TransitionEnd, global.peak_time)
+	//setTimeout(oTransition, function() { global.transition = false }, global.finish_time)
 }
 
 
 function TransitionSlideIn() {
-	live_name = "TransitionSlideIn"
-	if live_call()
-		return live_result
+	//live_name = "TransitionSlideIn"
+	//if live_call()
+	//	return live_result
 	
 	
 	// sqares = new Array()
@@ -50,13 +53,14 @@ function TransitionSlideIn() {
 	// the last square is fully opened
 	//global.peak_time = (room_width + room_height) div 32 + global.transition_time
 	global.peak_time = (room_width) div 32 + global.transition_time
+	global.finish_time = global.peak_time + global.return_time
 }
 
 
 function TransitionSlideOut() {
-	live_name = "TransitionSlideOut"
-	if live_call()
-		return live_result
+	//live_name = "TransitionSlideOut"
+	//if live_call()
+	//	return live_result
 	
 	
 	// sqares = new Array()
@@ -65,6 +69,30 @@ function TransitionSlideOut() {
 	global.transition_time = 30
 	global.go_back_time = 75
 	global.return_time = 20
+	
+	global.peak_time = (room_width) div 32 + global.transition_time
+	
+	
+	//if !variable_global_exists("area_name")
+	//	txt = "Cave-1"
+	//else
+	//	txt = str_format("%-%", global.area_name, global.battles+1)
+	txt = ""
+	
+	_text = create_text({
+		on_gui: true,
+		x: room_width/2,
+		y: room_height/2,
+		halign: fa_center,
+		valign: fa_middle,
+		text: txt,
+		font: fTransition,
+		fadein_time: 20+global.peak_time,
+		lifetime: global.go_back_time-global.peak_time-global.return_time,
+		fadeout_time: global.return_time,
+		alpha: 1.,
+		color: c_white
+	})
 
 	for(var _y = 16; _y <= room_height + 16; _y += 32) {
 		for(var _x = 16; _x <= room_width + 16; _x += 32) {
@@ -82,16 +110,18 @@ function TransitionSlideOut() {
 		}
 	}
 	
+	
 	// the last square is fully opened
 	//global.peak_time = (room_width + room_height) div 32 + global.transition_time
-	global.peak_time = (room_width) div 32 + global.transition_time
+	
+	global.finish_time = global.peak_time + global.return_time
 }
 
 
 function TransitionIn() {
-	live_name = "TransitionIn"
-	if live_call()
-		return live_result
+	//live_name = "TransitionIn"
+	//if live_call()
+	//	return live_result
 	
 	//sqares = new Array()
 	sqares = array_to_Array([])
@@ -118,12 +148,13 @@ function TransitionIn() {
 	}
 	
 	global.peak_time = sqrt(sqr(room_width/2) + sqr(room_height/2)) div 32 + global.transition_time
+	global.finish_time = global.peak_time + global.return_time
 }
 
 function TransitionOut() {
-	live_name = "TransitionOut"
-	if live_call()
-		return live_result
+	//live_name = "TransitionOut"
+	//if live_call()
+		//return live_result
 	
 	//sqares = new Array()
 	sqares = array_to_Array([])
@@ -141,7 +172,7 @@ function TransitionOut() {
 			var xx = _x
 			var yy = _y
 			with(inst) {
-				time_offset = sqrt(sqr(xx) + sqr(yy)) div 32 * 2
+				time_offset = sqrt(sqr(xx) + sqr(yy)) div 32
 				angle_spd = 360/global.transition_time
 				scale_spd = 1/global.transition_time
 		
@@ -153,11 +184,12 @@ function TransitionOut() {
 	}
 	
 	//global.peak_time = sqrt(sqr(room_width/2) + sqr(room_height/2)) div 32 * 2 + global.transition_time
-	global.peak_time = sqrt(sqr(room_width) + sqr(room_height)) div 32 * 2 + global.transition_time
+	global.peak_time = sqrt(sqr(room_width) + sqr(room_height)) div 32 + global.transition_time
+	global.finish_time = global.peak_time + global.return_time
 }
 
+// Not transition, just function
 function TransitionEnd() {
 	global.transition_func()
-
 	global.transition = false
 }

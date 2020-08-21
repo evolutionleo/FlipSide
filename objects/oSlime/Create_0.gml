@@ -19,7 +19,7 @@ initializeEnemy()
 
 
 onHit = function() {
-	audio_play_sound(aSlimeHit, 50, false)
+	vinyl_play(vinyl_lib.slime_hit)
 	#region Burst blood particles
 	
 	var xp, yp;

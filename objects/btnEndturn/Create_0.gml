@@ -23,8 +23,8 @@ onClick = function() {
 			color: c_yellow,
 			spd: {x: 0, y: -1},
 			x: room_width/2, y: room_height/4,
-			lifetime: 60,
-			fade_offset: 40
+			lifetime: 40,
+			fadeout_time: 20
 		})
 	}
 	else {
@@ -34,8 +34,8 @@ onClick = function() {
 			color: c_yellow,
 			spd: {x: 0, y: -1},
 			x: room_width/2, y: room_height/2,
-			lifetime: 60,
-			fade_offset: 40
+			lifetime: 40,
+			fadeout_time: 20
 		})
 	}
 }

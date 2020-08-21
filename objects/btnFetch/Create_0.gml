@@ -15,6 +15,8 @@ onClick = function() {
 		text: "Sorry, not available yet.",
 		x: room_width/2, y: room_height/2,
 		spd: {x: 0, y: -1},
-		font: fPopup
+		font: fPopup,
+		lifetime: 40,
+		fadeout_time: 20
 	})
 }

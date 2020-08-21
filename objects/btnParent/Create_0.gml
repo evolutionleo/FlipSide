@@ -28,8 +28,10 @@ onHold = function() {
 }
 
 
-// Check function! Do not change!
+// static function! Do not override! (unless you know what you're doing)
 on_mouse = function() {
 	return bbox_left < mouse_x and bbox_right > mouse_x
 	   and bbox_top < mouse_y  and bbox_bottom > mouse_y
 }
+
+Input = require(@'input')

@@ -8,7 +8,7 @@
 }
 1x {
 - Chest
-- Choose a veryrare card 
+- Choose a veryrare card
 }
 4x {
 - Battle

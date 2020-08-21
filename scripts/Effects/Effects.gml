@@ -21,6 +21,8 @@ function create_flash(_props) {
 	flash.color = props.color
 	flash.alpha = props.alpha
 	flash.delta_alpha = props.fadespd
+	
+	return flash
 }
 
 function create_freeze(_props) {
@@ -63,6 +65,7 @@ function create_sprite(_props) {
 		rotation: 0,
 		color: c_white,
 		one_cycle: false,
+		on_gui: false,
 		stuck: noone
 	})
 	
@@ -86,6 +89,10 @@ function create_sprite(_props) {
 	inst.col = props.color
 	inst.one_cycle = props.one_cycle
 	inst.stuck = props.stuck
+	inst.on_gui = props.on_gui
+	
+	
+	return inst
 }
 
 function create_text(_props) {
@@ -99,12 +106,14 @@ function create_text(_props) {
 		valign: fa_middle,
 		alpha: 1.0,
 		lifetime: 30,
-		fade_offset: 0,
+		fadeout_time: 0,
+		fadein_time: 0,
 		xscale: 1,
 		yscale: 1,
 		rotation: 0,
 		color: c_white,
-		stuck: noone
+		stuck: noone,
+		on_gui: false
 	})
 	
 	inheritProps(_props)
@@ -112,18 +121,38 @@ function create_text(_props) {
 	props = props.content
 	
 	var inst = instance_create_layer(props.x, props.y, "Effects", oFloatingText)
+	
 	inst.text = props.text
 	inst.font = props.font
+	
 	inst.halign = props.halign
 	inst.valign = props.valign
+	
 	inst.alpha = props.alpha
 	inst.spd = props.spd
+	
 	inst.lifetime = props.lifetime
-	inst.fade_offset = props.fade_offset
-	inst.fade_speed = props.alpha/(props.lifetime-props.fade_offset)
+				  //+ props.fadein_time
+				  //+ props.fadeout_time
+	
+	inst.fadein_time = props.fadein_time
+	inst.fadeout_time = props.fadeout_time
+	
+	inst.fadein_speed = (props.alpha)/(props.fadein_time)
+	inst.fadeout_speed = (props.alpha)/(props.fadeout_time)
+	
 	inst.rot = props.rotation
 	inst.xs = props.xscale
 	inst.ys = props.yscale
+	
 	inst.col = props.color
 	inst.stuck = props.stuck
+	inst.on_gui = props.on_gui
+	
+	
+	if props.fadein_time {
+		inst.alpha = 0
+	}
+	
+	return inst
 }

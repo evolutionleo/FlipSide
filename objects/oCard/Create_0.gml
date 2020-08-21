@@ -42,8 +42,6 @@ prev_on_mouse = false
 // SFX
 
 my_sound = -1
-hover_sounds = new Array(aCardHover1)
-play_sounds = new Array(aCardPlay1)
 
 //for(var snd = aCardHover1; snd <= aCardHover4; ++snd) {
 	//hover_sounds.Append(snd)

@@ -119,8 +119,7 @@ if on_mouse() and (global.dragging == noone or global.dragging == id)
 	
 	if !prev_on_mouse and global.dragging == noone //and !audio_is_playing(my_sound)
     {
-		my_sound = hover_sounds.getRandom()
-		audio_play_sound(my_sound, 10, false)
+		vinyl_play(vinyl_lib.card_hover)
 	}
 	
 	

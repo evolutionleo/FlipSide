@@ -26,7 +26,7 @@ function randomCard(_props) {
 	rand = new Chance()
 	
 	
-	trace("Card list: %", names)
+	//trace("Card list: %", names)
 	names.forEach(function(name) {
 		cd = variable_struct_get(global.Cards, name)
 		valid = true
@@ -41,8 +41,6 @@ function randomCard(_props) {
 		
 		if !valid
 			return -1
-		
-		trace("Adding card %", name)
 		
 		switch(cd.rarity) {
 			case RARITY.COMMON:

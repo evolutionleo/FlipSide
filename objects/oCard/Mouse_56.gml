@@ -7,8 +7,7 @@ if global.dragging == id
 {
 	global.dragging = noone
 	
-	play_sound = play_sounds.getRandom()
-	audio_play_sound(play_sound, 30, false)
+	vinyl_play(vinyl_lib.card_play)
 	
 	if state == CARD_STATE.HAND
 		layer = layer_get_id("Cards")

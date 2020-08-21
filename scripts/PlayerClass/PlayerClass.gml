@@ -217,7 +217,7 @@ function Player() constructor {
 		if damage > 0
 		{
 			hp -= damage
-			audio_play_sound(aPlayerHit, 40, false)
+			vinyl_play(vinyl_lib.player_hit)
 		
 			if getEffect(EFFECTS.THORNS)
 			{
@@ -237,7 +237,7 @@ function Player() constructor {
 
 			#endregion
 			
-			create_text({x: oPlayer.x, y: oPlayer.bbox_top - global.hit_num*16, text: "-"+string(damage), color: c_red, font: fDamageNumber, spd: {x: 0, y: -1}, lifetime: 60, fade_offset: 40})
+			create_text({x: oPlayer.x, y: oPlayer.bbox_top - global.hit_num*16, text: "-"+string(damage), color: c_red, font: fDamageNumber, spd: {x: 0, y: -1}, lifetime: 40, fadeout_time: 20})
 			global.hit_num++
 			
 			handleHealth()
@@ -266,7 +266,7 @@ function Player() constructor {
 		hp += amount
 		handleHealth()
 		
-		create_text({x: oPlayer.x, y: oPlayer.bbox_top, text: "+"+string(amount), color: c_lime, font: fDamageNumber, spd: {x: 0, y: -1}, lifetime: 60, fade_offset: 40})
+		create_text({x: oPlayer.x, y: oPlayer.bbox_top, text: "+"+string(amount), color: c_lime, font: fDamageNumber, spd: {x: 0, y: -1}, lifetime: 40, fadeout_time: 20})
 		
 		oPlayer.flash_color = c_lime
 		oPlayer.flash_alpha = 1.0
@@ -310,7 +310,7 @@ function Player() constructor {
 	}
 	
 	die = function() {
-		audio_play_sound(aPlayerDeath, 100, false)
+		vinyl_play(vinyl_lib.player_death)
 		game_restart()
 		//room_goto(rGameover)
 	}
@@ -520,8 +520,8 @@ function Player() constructor {
 						color: c_aqua,
 						x: room_width/2, y: room_height/2,
 						spd: {x: 0, y: -1},
-						lifetime: 60,
-						fade_offset: 40
+						lifetime: 40,
+						fadeout_time: 20
 					})
 				}
 				
@@ -700,14 +700,14 @@ function Player() constructor {
 		
 		max_mana += num
 		mana += num
-		create_text({x: oPlayer.x, y: oPlayer.bbox_top - 16, text: "+"+string(num), color: c_blue, font: fDamageNumber, spd: {x: 0, y: -1}, lifetime: 60, fade_offset: 40})
+		create_text({x: oPlayer.x, y: oPlayer.bbox_top - 16, text: "+"+string(num), color: c_blue, font: fDamageNumber, spd: {x: 0, y: -1}, lifetime: 40, fadeout_time: 20})
 	}
 	
 	addMana = function(num) {
 		if is_undefined(num) num = 1
 		mana += num
 		
-		create_text({x: oPlayer.x, y: oPlayer.bbox_top - 16, text: "+"+string(num), color: c_aqua, font: fDamageNumber, spd: {x: 0, y: -1}, lifetime: 60, fade_offset: 40})
+		create_text({x: oPlayer.x, y: oPlayer.bbox_top - 16, text: "+"+string(num), color: c_aqua, font: fDamageNumber, spd: {x: 0, y: -1}, lifetime: 40, fadeout_time: 20})
 	}
 	
 	destroyCrystal = function(num) {
@@ -716,7 +716,7 @@ function Player() constructor {
 		max_mana -= num
 		mana -= num
 		
-		create_text({x: oPlayer.x, y: oPlayer.bbox_top - 16, text: "-"+string(num), color: c_blue, font: fDamageNumber, spd: {x: 0, y: -1}, lifetime: 60, fade_offset: 40})
+		create_text({x: oPlayer.x, y: oPlayer.bbox_top - 16, text: "-"+string(num), color: c_blue, font: fDamageNumber, spd: {x: 0, y: -1}, lifetime: 40, fadeout_time: 20})
 	}
 	
 	#endregion

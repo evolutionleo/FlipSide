@@ -1,13 +1,17 @@
 {
     "name": "SlimeFriend",
-	"rarity": "common",
+	"rarity": "legendary",
 	"cost": 2,
 	"effect": "
 		var slime = instance_create_layer(0, 0, \"Enemies\", oSmallSlime);
 		slime.switchSide(true);
 		//variable_instance_set(slime, \"friendly\", true);
 	",
-	"side_effect": "with(oSlime) { global.player.deal(id, 30); }",
+	"side_effect": "
+	with(oSlime) {
+		global.player.deal(id, 30);
+	}
+	",
 	"spr": "cdPlaceholder.png",
 	"targeting": false,
 	"side_targeting": false,

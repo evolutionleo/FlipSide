@@ -365,9 +365,10 @@ startTurn = function() {
 		sprite_index = object_get_sprite(object_index)
 	
 	
-	var audio = asset_get_index("a"+obj_name+postfix)
-	if audio_exists(audio)
-		audio_play_sound(audio, 30, false)
+	var audio = asset_get_index(string_lower(obj_name+"_"+postfix))
+	var _vinyl_audio = variable_struct_get(vinyl_lib, audio)
+	if is_vinyl_pattern(_vinyl_audio)// or audio_exists(audio)
+		vinyl_play(audio)
 	
 	
 	acting = true
@@ -403,7 +404,7 @@ hit = function(damage, dealer) {
 	
 	handleHealth()
 	
-	create_text({x: x, y: bbox_top - 16 * global.turn_id, text: "-"+string(damage), color: c_red, font: fDamageNumber, spd: {x: 0, y: -1}, lifetime: 60, fade_offset: 40})
+	create_text({x: x, y: bbox_top - 16 * global.turn_id, text: "-"+string(damage), color: c_red, font: fDamageNumber, spd: {x: 0, y: -1}, lifetime: 40, fadeout_time: 20})
 	
 	flash_alpha = 1.0
 }
@@ -414,7 +415,7 @@ heal = function(healing) {
 	hp += healing
 	handleHealth()
 	
-	create_text({x: x, y: y-8*image_yscale, text: "+"+string(healing), color: c_lime, font: fDamageNumber, spd: {x: 0, y: -1}, lifetime: 60, fade_offset: 40})
+	create_text({x: x, y: y-8*image_yscale, text: "+"+string(healing), color: c_lime, font: fDamageNumber, spd: {x: 0, y: -1}, lifetime: 40, fadeout_time: 20})
 }
 
 #endregion

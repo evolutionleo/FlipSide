@@ -1,6 +1,6 @@
 /// @desc
 
-if live_call() return live_result
+//if live_call() return live_result
 
 if state == CARD_STATE.DISCARD
 	exit

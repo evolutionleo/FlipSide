@@ -69,6 +69,7 @@ function cardChoiceExists(name) {
 function createCardChoice() {
 	global.choice = true
 	layer_set_visible(layer_get_id("Choice"), true)
+	layer_set_visible(layer_get_id("ChoiceBackground"), true)
 	global.choices = new Array()
 	repeat(3)
 	{
@@ -99,6 +100,7 @@ function endCardChoice() {
 function endCardChoice2() {
 	global.choice = false
 	layer_set_visible(layer_get_id("Choice"), false)
+	layer_set_visible(layer_get_id("ChoiceBackground"), false)
 	
 	startBattle()
 }
@@ -133,62 +135,148 @@ function startBattle() {
 	#region Enemies
 	//global.enemies = new Array()
 	
+	
+	
 	spawn = function() {
+		#region Assemble the enemies
+		
+		// Make a set of matching enemies
+		set = new Array()
+		
+		max_diff = global.battles * 2 // difficulty not difference
+		cur_diff = 0
+		
+		enemy_names = array_to_Array(variable_struct_get_names(enemy_difficulties))
+		
+		while(true)
+		{
+			if enemy_names.empty() // if no fitting enemies - leave
+				break
+			
+			var idx = irandom(enemy_names.size-1)   // not getRandom() b/c we need index
+			cur_enemy = enemy_names.get(idx)		// this is a string
+			enemy_weight = variable_struct_get(enemy_difficulties, cur_enemy)
+			
+			if (cur_diff + enemy_weight > max_diff) { // found too hard enemy
+				enemy_names.remove(idx)
+				continue
+			}
+			else {
+				var enemy_id = asset_get_index(cur_enemy)
+				set.append(enemy_id)
+				cur_diff += enemy_weight
+				
+				trace("Appending %", cur_enemy)
+				trace("Current set difficulty: %/%", cur_diff, max_diff)
+				
+				if set.number(enemy_id) >= 2 {
+					enemy_names.remove(idx)
+				}
+			}
+			
+			if cur_diff == max_diff {
+				break
+			}
+		}
+		
+		#endregion
+		#region Actual spawn
+		
+		// they're random anyway
+		
+		// Strongest first
+		set.sort(function(a, b) {
+			var val_a = variable_struct_get(enemy_difficulties, object_get_name(a))
+			var val_b = variable_struct_get(enemy_difficulties, object_get_name(b))
+			return val_a > val_b
+		})
+		
+		// Cut the weakest
+		if set.size - 1 < instance_number(oEnemyPos) {
+			set.resize(instance_number(oEnemyPos))
+		}
+		// Shuffle again
 		set.shuffle()
+		
+		// Actual spawning
 		set.forEach(function(enemy, i) {
 			var pos = instance_find(oEnemyPos, i)
 			instance_create_layer(pos.x, pos.y, "Enemies", enemy)
+			//trace(enemy)
 		})
+		//trace(set)
+		
+		#endregion
 	}
 	
-	switch(global.battles) {
-		case 1:
-			set = [oSmallSlime]
-		break
-		case 2:
-			set = [oSlime]
-		break
-		case 3:
-			//set = [oSlime, oSlime, oSmallSlime]
-			set = [oGoblin]
-		break
-		case 4:
-			//set = [oBigSlime, oSlime, oSlime]
-			set = [oGoblin, oGoblin]
-		break
-		case 5:
-			//set = [oPinkSlime]
-			set = [oBat, oGoblin]
-		break
-		case 6:
-			//set = [oPinkSlime, oBigSlime]
-			set = [oBat]
-		break
-		case 7:
-			//set = [oBlueSlime]
-			set = [oBat, oBat]
-		break
-		case 8:
-			set = [oPinkSlime, oBlueSlime]
-		break
-		case 9:
-			set = [oPinkSlime, oBlueSlime, oBigSlime]
-			break
-		case 10:
-			set = [oBlackSlime]
-		break
-		case 11:
-			set = [oBlackSlime, oBigSlime]
-		break
-		case 12:
-			set = [oBlackSlime, oBlackSlime]
-		break
-		case 13:
-			set = [oBlackSlime, oBlackSlime, oBlackSlime]
-		break
-	}
 	
-	#region Ending
+	#region //Old strict code
+	
+	//switch(global.battles) {
+	//	case 1:
+	//		set = [oSmallSlime]
+	//	break
+	//	case 2:
+	//		set = [oSlime]
+	//	break
+	//	case 3:
+	//		set = [oSlime, oSlime, oSmallSlime]
+	//		//set = [oGoblin]
+	//	break
+	//	case 4:
+	//		set = [oBigSlime, oSlime, oSlime]
+	//		//set = [oGoblin, oGoblin]
+	//	break
+	//	case 5:
+	//		set = [oPinkSlime]
+	//		//set = [oBat, oGoblin]
+	//	break
+	//	case 6:
+	//		set = [oPinkSlime, oBigSlime]
+	//		//set = [oBat]
+	//	break
+	//	case 7:
+	//		set = [oBlueSlime]
+	//		//set = [oBat, oBat]
+	//	break
+	//	case 8:
+	//		set = [oPinkSlime, oBlueSlime]
+	//	break
+	//	case 9:
+	//		set = [oPinkSlime, oBlueSlime, oBigSlime]
+	//		break
+	//	case 10:
+	//		set = [oBlackSlime]
+	//	break
+	//	case 11:
+	//		set = [oBlackSlime, oBigSlime]
+	//	break
+	//	case 12:
+	//		set = [oBlackSlime, oBlackSlime]
+	//	break
+	//	case 13:
+	//		set = [oBlackSlime, oBlackSlime, oBlackSlime]
+	//	break
+	//}
+	
+	#endregion
+	#region New code /w blackjack and random generation
+	
+	enemy_difficulties = new (function() constructor
+	{
+		self.oSmallSlime = 1 // these are strings anyway
+		self.oSlime= 2		// (expressed with object_get_name() rather than object_index)
+		self.oBigSlime= 4
+		self.oBlueSlime= 6
+		self.oPinkSlime= 7
+		self.oBlackSlime= 10
+		self.oGoblin= 14
+		self.oBat= 16
+	})()
+	
+	#endregion
+	
+	#region Endings
 	
 	if !variable_global_exists("lemmedie")
 		global.lemmedie = false
@@ -201,11 +289,8 @@ function startBattle() {
 	//}
 	#endregion
 	else {
-	
-	set = array_to_Array(set)
-	
-	spawn()
-	
+		//set = array_to_Array(set)
+		spawn()	
 	}
 	#endregion
 }
@@ -245,5 +330,4 @@ function endBattle() {
 	}
 	
 	startTransition(TransitionSlideIn, function() { createCardChoice() })
-	trace("choice began = %", global.choice ? "true" : "false")
 }

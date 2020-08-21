@@ -8,8 +8,8 @@
   "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": {
-    "name": "btnParent",
-    "path": "objects/btnParent/btnParent.yy",
+    "name": "btnMenuParent",
+    "path": "objects/btnMenuParent/btnMenuParent.yy",
   },
   "physicsObject": false,
   "physicsSensor": false,
@@ -31,8 +31,8 @@
     {"propertyId":{"name":"text","path":"objects/btnParent/btnParent.yy",},"objectId":{"name":"btnParent","path":"objects/btnParent/btnParent.yy",},"value":"\"Play\"","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
   ],
   "parent": {
-    "name": "Buttons",
-    "path": "folders/Code/Objects/Buttons.yy",
+    "name": "Main Menu",
+    "path": "folders/Code/Objects/UIs/Menu UI/Main Menu.yy",
   },
   "resourceVersion": "1.0",
   "name": "btnPlay",

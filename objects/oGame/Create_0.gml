@@ -9,6 +9,9 @@ global.card_inst = new Array()
 
 #region BLYAT' VERSTKA SLETELA
 
+my_gui_alpha = 1
+
+
 //#macro CARD_WIDTH  64*1.5
 //#macro CARD_HEIGHT 96*1.5
 #macro CARD_WIDTH  96
@@ -58,7 +61,9 @@ global.card_inst = new Array()
 //#macro GRAVE_X 64-10
 //#macro GRAVE_Y 64+104
 #macro GRAVE_X 54
-#macro GRAVE_Y 74
+#macro GRAVE_Y 168
+#macro GRAVE_WIDTH 64
+#macro GRAVE_HEIGHT 64
 
 // Exile pile position
 #macro EXILE_X room_width/2
@@ -98,6 +103,7 @@ global.deck_ease = 0
 
 
 #endregion
+#region Initial setup
 
 repeat(4) {
 	global.player.deck.append(new Card("Fire"))
@@ -106,6 +112,8 @@ repeat(4) {
 global.player.deck.append(new Card("Water"))
 
 global.battles = 0
+global.area = 0
+global.area_name = "Cave"
 
 }
 else {
@@ -114,19 +122,8 @@ else {
 	blah = false
 }
 
-
 global.choice = false
 
 startBattle()
 
-
-
-
-
-if !variable_global_exists("mute") {
-	//global.mute = false
-	global.mute = true
-}
-
-if !global.mute and !audio_is_playing(aMusic) and !audio_is_playing(aMusic2)
-	audio_play_sound(aMusic, 1000, false)
+#endregion

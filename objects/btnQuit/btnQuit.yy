@@ -29,8 +29,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Buttons",
-    "path": "folders/Code/Objects/Buttons.yy",
+    "name": "Main Menu",
+    "path": "folders/Code/Objects/UIs/Menu UI/Main Menu.yy",
   },
   "resourceVersion": "1.0",
   "name": "btnQuit",

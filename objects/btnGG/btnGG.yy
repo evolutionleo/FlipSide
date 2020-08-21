@@ -29,8 +29,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Buttons",
-    "path": "folders/Code/Objects/Buttons.yy",
+    "name": "Gameplay UI",
+    "path": "folders/Code/Objects/UIs/Gameplay UI.yy",
   },
   "resourceVersion": "1.0",
   "name": "btnGG",

@@ -1,10 +1,16 @@
 {
-  "spriteId": null,
+  "spriteId": {
+    "name": "sDefaultButton",
+    "path": "sprites/sDefaultButton/sDefaultButton.yy",
+  },
   "solid": false,
   "visible": true,
   "spriteMaskId": null,
   "persistent": false,
-  "parentObjectId": null,
+  "parentObjectId": {
+    "name": "btnMenuParent",
+    "path": "objects/btnMenuParent/btnMenuParent.yy",
+  },
   "physicsObject": false,
   "physicsSensor": false,
   "physicsShape": 1,
@@ -17,12 +23,16 @@
   "physicsStartAwake": true,
   "physicsKinematic": false,
   "physicsShapePoints": [],
-  "eventList": [],
+  "eventList": [
+    {"isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,"parent":{"name":"btnFullscreen","path":"objects/btnFullscreen/btnFullscreen.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+  ],
   "properties": [],
-  "overriddenProperties": [],
+  "overriddenProperties": [
+    {"propertyId":{"name":"text","path":"objects/btnParent/btnParent.yy",},"objectId":{"name":"btnParent","path":"objects/btnParent/btnParent.yy",},"value":"\"Fullscreen\"","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
+  ],
   "parent": {
-    "name": "Buttons",
-    "path": "folders/Code/Objects/Buttons.yy",
+    "name": "Options",
+    "path": "folders/Code/Objects/UIs/Menu UI/Options.yy",
   },
   "resourceVersion": "1.0",
   "name": "btnFullscreen",
