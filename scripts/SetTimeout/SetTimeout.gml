@@ -22,7 +22,7 @@ function call_inst(__func, __inst, __delay, __props) {
 	__props = new Map(__props)
 	
 	__props.forEach(function(prop, name) {
-		other.props.set(name, prop)
+		props.set(name, prop)
 	})
 	
 	//delete _props

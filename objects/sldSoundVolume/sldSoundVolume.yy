@@ -28,7 +28,9 @@
     {"isDnD":false,"eventNum":1,"eventType":3,"collisionObjectId":null,"parent":{"name":"sldSoundVolume","path":"objects/sldSoundVolume/sldSoundVolume.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
   ],
   "properties": [],
-  "overriddenProperties": [],
+  "overriddenProperties": [
+    {"propertyId":{"name":"value","path":"objects/sldParent/sldParent.yy",},"objectId":{"name":"sldParent","path":"objects/sldParent/sldParent.yy",},"value":"global.sound_volume","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
+  ],
   "parent": {
     "name": "Options",
     "path": "folders/Code/Objects/UIs/Menu UI/Options.yy",

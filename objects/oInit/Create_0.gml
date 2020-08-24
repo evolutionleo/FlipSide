@@ -20,7 +20,9 @@ function __init__() {
 	}
 	
 	//room_goto_live(rMenu)
-	room_goto(rMenu)
+	//room_goto(rMenu)
+	
+	load_settings()
 }
 
 __init__()

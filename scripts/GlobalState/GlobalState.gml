@@ -193,7 +193,7 @@ function startBattle() {
 		
 		// Cut the weakest
 		if set.size - 1 < instance_number(oEnemyPos) {
-			set.resize(instance_number(oEnemyPos))
+			set.resize(instance_number(oEnemyPos)-1)
 		}
 		// Shuffle again
 		set.shuffle()
@@ -201,7 +201,8 @@ function startBattle() {
 		// Actual spawning
 		set.forEach(function(enemy, i) {
 			var pos = instance_find(oEnemyPos, i)
-			instance_create_layer(pos.x, pos.y, "Enemies", enemy)
+			if pos
+				instance_create_layer(pos.x, pos.y, "Enemies", enemy)
 			//trace(enemy)
 		})
 		//trace(set)

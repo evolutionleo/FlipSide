@@ -1,12 +1,13 @@
 /// @desc
 if !variable_global_exists("mute") {
 	global.mute = false
-	global.master_volume = 100
-	
 	global.music_mute = false
-	global.music_volume = 100
-	
 	global.sound_mute = false
+}
+
+if !variable_global_exists("master_volume") {
+	global.master_volume = 100
+	global.music_volume = 100
 	global.sound_volume = 100
 }
 
@@ -16,12 +17,14 @@ if !variable_global_exists("audio_initialized")
 function audio_init() {
 	with(vinyl_library) {
 		// Buss
+		
 		//vinyl_lib.master = vinyl_buss_get("master")
-		master = vinyl_buss_get("master")
-		with(master) {
+		
+		//master = vinyl_buss_get("master")
+		//with(master) {
 			vinyl_lib.music_buss = vinyl_buss_create("music")
 			vinyl_lib.sound_buss = vinyl_buss_create("sound effects")
-		}
+		//}
 		
 		// Music
 		music_loop = vinyl_loop(aMusic, aMusic2, "")
@@ -38,13 +41,14 @@ function audio_init() {
 		//SlimeHit = vinyl_random(aSlimeHit)
 		slime_hit = vinyl_random(aSlimeHit)
 		
-		// Doesn't work
+		// Assign busses
 		music_loop.buss_name = "music"
-		// Doesn't work either
-		//music_loop.buss = vinyl_lib.music_buss
 		
 		card_hover.buss_name = "sound effects"
 		card_play.buss_name	= "sound effects"
+		slime_hit.buss_name	= "sound effects"
+		player_hit.buss_name	= "sound effects"
+		player_death.buss_name	= "sound effects"
 	}
 }
 function audio_reinit() {

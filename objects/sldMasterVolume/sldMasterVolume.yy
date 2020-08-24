@@ -30,6 +30,7 @@
   "properties": [],
   "overriddenProperties": [
     {"propertyId":{"name":"active","path":"objects/sldParent/sldParent.yy",},"objectId":{"name":"sldParent","path":"objects/sldParent/sldParent.yy",},"value":"0","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
+    {"propertyId":{"name":"value","path":"objects/sldParent/sldParent.yy",},"objectId":{"name":"sldParent","path":"objects/sldParent/sldParent.yy",},"value":"global.master_volume","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
   ],
   "parent": {
     "name": "Options",
