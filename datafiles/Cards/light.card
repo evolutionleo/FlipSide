@@ -21,5 +21,6 @@
     "text": "Heal [heal=20] to EVERYONE",
     "side_text": "Kill enemy lose hp = to its hp",
     "color": "a0a277",
-    "side_color": "000000"
+    "side_color": "000000",
+	"artist": "listoneice"
 }

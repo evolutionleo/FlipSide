@@ -14,7 +14,7 @@ onClick = function() {
 }
 
 
-//if !file_exists("save1.game")
+if !file_exists("save1.game")
 	instance_destroy()
 
 

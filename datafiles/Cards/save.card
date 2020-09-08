@@ -12,5 +12,6 @@
 	"text": "Cut by half all damage dealt/received this turn",
 	"side_text": "Lose [hit=50] hp. Create 1 mana crystal",
 	"color": "2c68ad",
-	"side_color": "204672"
+	"side_color": "204672",
+	"artist": "Evoleo"
 }

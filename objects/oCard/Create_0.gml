@@ -6,11 +6,13 @@ enum CARD_STATE {
 	CHOICE_END,
 	DISCARD,
 	INACTIVE,
-	EXILE
+	EXILE,
+	CREDITS
 }
 
 state = CARD_STATE.HAND
 
+draggable = true
 
 index = -1
 my_card = -1
@@ -19,7 +21,11 @@ target = noone
 ease_pos = 0
 flip_pos = 0
 
+flip = 1
+
+
 flipping = false
+
 
 dark_side = false
 

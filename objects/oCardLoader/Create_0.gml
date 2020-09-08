@@ -31,6 +31,12 @@ function card_load(map)
 			case "legendary":
 				new_card.rarity = RARITY.LEGENDARY
 				break
+			case "special":
+				new_card.rarity = RARITY.SPECIAL
+				break
+			case "token":
+				new_card.rarity = RARITY.TOKEN
+				break
 			default:
 				trace("WARNING! UNKNOWN RARITY FOUND IN CARD NAME "+new_card.name)
 				new_card.rarity = RARITY.COMMON

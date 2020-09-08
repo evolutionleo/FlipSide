@@ -10,5 +10,6 @@
 	"text": "Gain [strength=2] strength. Heal [heal=5]. Draw [draw=1]",
 	"side_text": "Apply [weak=2] weak to an enemy. Deal [damage=7]",
 	"color": "ffffff",
-	"side_color": "ffffff"
+	"side_color": "ffffff",
+	"artist": "MemeExplorer"
 }

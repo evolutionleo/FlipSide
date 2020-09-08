@@ -1,8 +1,5 @@
 /// @desc
 
-if live_call()
-	return live_result
-
 var perc = (value - min_value) / (max_value - min_value)
 
 var x1 = bbox_left

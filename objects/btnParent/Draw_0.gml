@@ -1,8 +1,5 @@
 /// @desc
 
-if live_call()
-	return live_result
-
 if sprite_index != sDefaultButton {
 	draw_self()
 }

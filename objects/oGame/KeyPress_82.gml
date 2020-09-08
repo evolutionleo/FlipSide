@@ -1,5 +1,5 @@
 /// @desc
 
-save_game()
+//save_game()
 
 game_restart()

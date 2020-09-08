@@ -9,7 +9,9 @@ function randomCard(_props) {
 		COMMON,
 		RARE,
 		VERYRARE,
-		LEGENDARY
+		LEGENDARY,
+		SPECIAL,
+		TOKEN
 	}
 	#endregion
 	
@@ -56,8 +58,8 @@ function randomCard(_props) {
 				rand.addChoice(name, .05) //20 times rarer than common
 				break
 			default:
-				trace("WARNING! UNKNOWN RARITY IN CARD RANDOMIZATION!")
-				rand.addChoice(name, 1)
+				trace("WARNING! NOT ADDING % INTO CARD RANDOMIZATION", cd.name)
+				rand.addChoice(name, 0)
 				break
 		}
 	})
@@ -145,7 +147,8 @@ function Card(type) constructor {
 					//opening = "[d#"+string(col)+"]"
 					
 					var damage = real(value)
-					damage = global.player.modifyDamage(damage)
+					if variable_global_exists("player")
+						damage = global.player.modifyDamage(damage)
 					
 					contents = string(damage)
 					break
@@ -155,13 +158,15 @@ function Card(type) constructor {
 					//opening = "[d#"+string(col)+"]"
 					
 					var healing = real(value)
-					healing = global.player.modifyHeal(healing)
+					if variable_global_exists("player")
+						healing = global.player.modifyHeal(healing)
 					
 					contents = string(healing)
 					break
 				case "hit":
 					var damage = real(value)
-					damage = global.player.modifyHit(damage)
+					if variable_global_exists("player")
+						damage = global.player.modifyHit(damage)
 					
 					contents = string(damage)
 					break
@@ -171,14 +176,16 @@ function Card(type) constructor {
 					//opening = "[d#"+string(col)+"]"
 					
 					var cards = real(value)
-					cards = global.player.modifyDraw(cards)
+					if variable_global_exists("player")
+						cards = global.player.modifyDraw(cards)
 					
 					contents = string(cards)
 					break
 				case "discard":
 					
 					var cards = real(value)
-					cards = global.player.modifyDiscard(cards)
+					if variable_global_exists("player")
+						cards = global.player.modifyDiscard(cards)
 					
 					contents = string(cards)
 					break

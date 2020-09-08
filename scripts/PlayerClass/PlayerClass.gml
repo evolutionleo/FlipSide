@@ -24,8 +24,8 @@ function Player() constructor {
 	
 	#endregion
 	
-	hp = 75
-	max_hp = 75
+	hp = 50
+	max_hp = 50
 	
 	mana = 3
 	max_mana = 3
@@ -310,7 +310,10 @@ function Player() constructor {
 	}
 	
 	die = function() {
+		var filename = "save1.game"
+		
 		vinyl_play(vinyl_lib.player_death)
+		file_delete(filename)
 		game_restart()
 		//room_goto(rGameover)
 	}
@@ -326,7 +329,7 @@ function Player() constructor {
 	startTurn = function() {
 		global.hit_num = 0
 		
-		global.player.setEffect(EFFECTS.TIRED, false)
+		setEffect(EFFECTS.TIRED, false)
 		
 		if global.turn > 0 and !global.choice and !enemiesRemain()
 		{
@@ -334,19 +337,19 @@ function Player() constructor {
 		}
 		else
 		{
-			global.player.mana = global.player.max_mana
-			global.player.draw(3)
+			mana = max_mana
+			draw(3)
 		
-			if global.player.getEffect(EFFECTS.BEST4LAST) {
-				global.player.addMana(2)
-				global.player.draw(1)
+			if getEffect(EFFECTS.BEST4LAST) {
+				addMana(2)
+				draw(1)
 			}
-			if global.player.getEffect(EFFECTS.REST) {
-				global.player.draw(1)
+			if getEffect(EFFECTS.REST) {
+				draw(1)
 			}
 		}
 		
-		global.player.processEffects()
+		processEffects()
 	}
 	
 	#endregion

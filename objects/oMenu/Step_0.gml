@@ -1,6 +1,6 @@
 /// @desc the Update
 
-if live_call() return live_result
+//if live_call() return live_result
 
 
 move = Input.getPressed("down") - Input.getPressed("up")

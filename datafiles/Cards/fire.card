@@ -10,5 +10,6 @@
 	"text": "Heal [heal=10]",
 	"side_text": "Deal [damage=10]",
 	"color": "ad682c",
-	"side_color": "724620"
+	"side_color": "724620",
+	"artist": "Evoleo"
 }

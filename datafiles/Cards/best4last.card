@@ -14,5 +14,6 @@
 	"text": "Next turn, gain 2 mana and Draw [draw=1]",
 	"side_text": "Discard hand. Deal [damage=10] for each card discarded",
 	"color": "ad682c",
-	"side_color": "724620"
+	"side_color": "724620",
+	"artist": "Evoleo"
 }

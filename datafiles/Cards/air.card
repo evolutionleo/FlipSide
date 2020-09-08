@@ -10,5 +10,6 @@
     "text": "Draw 1\nHeal 3",
 	"side_text": "Draw 1\nDeal 3",
 	"color": "ffffff",
-	"side_color": "ffffff"
+	"side_color": "ffffff",
+	"artist": "Evoleo"
 }

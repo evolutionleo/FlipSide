@@ -1,6 +1,6 @@
 /// @desc
 
-if live_call() return live_result
+//if live_call() return live_result
 
 //draw_text(15, 15, global.turn)
 draw_get()

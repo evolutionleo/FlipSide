@@ -29,6 +29,4 @@ function json_optimize(json) {
 	json = string_replace_all(json,".0 }"," }")
 
 	return json
-
-
 }

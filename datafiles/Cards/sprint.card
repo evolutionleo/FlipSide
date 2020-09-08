@@ -10,5 +10,6 @@
 	"text": "Draw [draw=3]. No draw this turn",
 	"side_text": "Heal [heal=8]. Next turn, Draw [draw=1]",
 	"color": "ceac00",
-	"side_color": "14dd00"
+	"side_color": "14dd00",
+	"artist": "Evoleo"
 }

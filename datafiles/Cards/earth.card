@@ -5,10 +5,9 @@
     "cost": 2,
     "effect": "global.player.heal(10); global.player.applyEffect(1, true, -1);",
     "side_effect": "
-    for(var i = 0; i < instance_number(oEnemy); i++) {
-        var enemy = instance_find(oEnemy, i);
-        if(!enemy.friendly) {
-            global.player.deal(enemy, 20);
+    with(oEnemy) {
+        if(!friendly) {
+            global.player.deal(id, 20);
         }
     }",
     "targeting": false,
@@ -16,5 +15,6 @@
     "text": "Heal [heal=10]\nApply Thorns",
 	"side_text": "Deal [damage=20] to all",
 	"color": "ad682c",
-	"side_color": "ad682c"
+	"side_color": "ad682c",
+    "artist": "Evoleo"
 }

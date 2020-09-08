@@ -1,16 +1,11 @@
 /// @desc
 
-if !variable_global_exists("lemmedie") or !global.lemmedie
-{
-
-global.player	 = new Player()
-global.card_inst = new Array()
+#region BLYAT' VERSTKA SLETELA
+#macro elseif else if
+#macro elif else if
 
 
 #region BLYAT' VERSTKA SLETELA
-
-my_gui_alpha = 1
-
 
 //#macro CARD_WIDTH  64*1.5
 //#macro CARD_HEIGHT 96*1.5
@@ -18,6 +13,15 @@ my_gui_alpha = 1
 #macro CARD_HEIGHT 144
 #macro CARD_OFFX 16
 #macro CARD_OFFY 0
+
+#macro CREDIT_CARD_WIDTH 96*1.15
+#macro CREDIT_CARD_HEIGHT 144*1.15
+#macro BASE_CREDIT_CARD_XSCALE (CREDIT_CARD_WIDTH  / sprite_get_width(sprite_index))
+#macro BASE_CREDIT_CARD_YSCALE (CREDIT_CARD_HEIGHT  / sprite_get_height(sprite_index))
+#macro NORMAL_CREDIT_CARD_XSCALE (CREDIT_CARD_WIDTH  / (128 / 2))
+#macro NORMAL_CREDIT_CARD_YSCALE (CREDIT_CARD_HEIGHT / 96)
+#macro CREDIT_CARD_XSCALE_MOD (NORMAL_CREDIT_CARD_XSCALE / BASE_CREDIT_CARD_XSCALE)
+#macro CREDIT_CARD_YSCALE_MOD (NORMAL_CREDIT_CARD_YSCALE / BASE_CREDIT_CARD_YSCALE)
 
 // Scale without considering flipping and tweening
 #macro BASE_CARD_XSCALE (CARD_WIDTH  / sprite_get_width(sprite_index))
@@ -103,6 +107,17 @@ global.deck_ease = 0
 
 
 #endregion
+#endregion
+
+if !variable_global_exists("lemmedie") or !global.lemmedie
+{
+
+global.player	 = new Player()
+global.card_inst = new Array()
+
+
+my_gui_alpha = 1
+
 #region Initial setup
 
 repeat(4) {

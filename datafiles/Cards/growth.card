@@ -14,5 +14,6 @@
     "text": "Gain 1 mana crystal",
     "side_text": "Destroy 1 crystal\nDeal [damage=50]",
     "color": "1ded37",
-    "side_color": "ff0064"
+    "side_color": "ff0064",
+    "artist": "Evoleo"
 }

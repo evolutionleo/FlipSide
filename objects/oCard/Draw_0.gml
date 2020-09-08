@@ -1,7 +1,8 @@
 /// @desc
 
-draw_self()
+//if live_call() return live_result
 
+draw_self()
 
 if my_card == -1 or is_undefined(my_card)
 	exit
@@ -9,6 +10,7 @@ if my_card == -1 or is_undefined(my_card)
 
 draw_get()
 
+#region Draw card text
 //draw_set_font(fCard)
 if image_index == 0 {
 	//draw_set_color(my_card.color)
@@ -20,10 +22,6 @@ else {
 	var col = my_card.side_color
 	var text = my_card.side_text
 }
-//draw_set_halign(fa_center)
-//draw_set_valign(fa_middle)
-//draw_text_transformed(x, y + 28*image_yscale, text, image_xscale/4, image_yscale/4, 0)
-
 text = my_card.parse(text, flip_pos < .5)
 
 draw_set_align(fa_center, fa_top)
@@ -80,5 +78,23 @@ scribble_draw(CARD_TEXTBOX_X, CARD_TEXTBOX_Y, pre+ text +post)
 //	scribble_set_transform(4, 4, 0)
 //	scribble_draw(x, y, string(my_card.cost))
 //}
+
+#endregion
+#region Credit the artist
+
+if state == CARD_STATE.CREDITS
+{
+	var _x = x
+	var _y = bbox_bottom
+	draw_set_font(fCredit)
+	draw_set_align(fa_center, fa_top)
+	
+	draw_set_color(c_gray)
+	draw_text_transformed(_x+.5, _y+.5, "Art: " + my_card.artist, .75, .75, 0)
+	draw_set_color(c_white)
+	draw_text_transformed(_x   , _y	  ,	"Art: " + my_card.artist, .75, .75, 0)
+}
+
+#endregion
 
 draw_reset()

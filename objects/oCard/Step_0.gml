@@ -1,14 +1,39 @@
 /// @desc
 
-// Apparently Breaks because of animcurves
+// Apparently live Breaks because of animcurves
 //if live_call() return live_result
 
 
-//my_card = -1
-//exit
+draggable = state == CARD_STATE.CHOICE || state == CARD_STATE.HAND
 
 
-//trace("Card id#%, target: %", id, target)
+if my_card != -1
+{
+	sprite_index = my_card.spr
+	
+	if !variable_struct_exists(my_card, "side")
+		my_card.side = dark_side
+	
+	if !flipping {
+		image_index = my_card.side
+		dark_side = my_card.side
+		if dark_side {
+			flip_pos = 1
+		}
+		else {
+			flip_pos = 0
+		}
+	}
+}
+
+flip_pos = clamp(flip_pos, 0, 1)
+flip_channel = animcurve_get_channel(cvFlipping, "curve1")
+flip = animcurve_channel_evaluate(flip_channel, flip_pos)
+
+
+ease_pos = clamp(ease_pos, 0, .3)
+ease_channel = animcurve_get_channel(cvCardEaseIn, "curve1")
+scale = animcurve_channel_evaluate(ease_channel, ease_pos)
 
 
 if state == CARD_STATE.HAND or state == CARD_STATE.CHOICE
@@ -68,9 +93,10 @@ if index != -1
 					global.deck_ease += .04 // To compensate the -
 				}
 			}
-			else if targeting and y < global.playy
+			else if targeting and y < global.playy // state = HAND
 			{
 				target = instance_nearest(x, y, oEnemy)
+				
 				
 				if distance_to_object(target) < 128 {
 					// Moved everything to enemy begin step event
@@ -99,7 +125,6 @@ if index != -1
 			startx = my_card.x
 			starty = my_card.y
 		}
-	
 	
 	}
 }
@@ -167,21 +192,13 @@ if flipping and my_card != -1
 }
 
 
-flip_pos = clamp(flip_pos, 0, 1)
-flip_channel = animcurve_get_channel(cvFlipping, "curve1")
-flip = animcurve_channel_evaluate(flip_channel, flip_pos)
+x = lerp(x, targetx, interpolation)
+y = lerp(y, targety, interpolation)
 
-
-ease_pos = clamp(ease_pos, 0, .3)
-ease_channel = animcurve_get_channel(cvCardEaseIn, "curve1")
-scale = animcurve_channel_evaluate(ease_channel, ease_pos)
 
 image_xscale = ( BASE_CARD_XSCALE + (scale / CARD_XSCALE_MOD) ) * flip
 image_yscale =   BASE_CARD_YSCALE + (scale / CARD_YSCALE_MOD)
 
-
-x = lerp(x, targetx, interpolation)
-y = lerp(y, targety, interpolation)
 
 } // other state 
 else if state == CARD_STATE.DISCARD
@@ -197,6 +214,7 @@ else if state == CARD_STATE.DISCARD
 	image_yscale = image_xscale
 	
 	image_alpha *= .9
+	image_angle -= 3
 	
 	if point_distance(x, y, targetx, targety) <= 5 || image_alpha <= 0.01 || image_xscale <= 0.01
 		instance_destroy()
@@ -238,3 +256,55 @@ else if state == CARD_STATE.EXILE
 	if point_distance(x, y, targetx, targety) <= 5 || image_alpha <= 0.01 || image_xscale <= 0.01
 		instance_destroy()
 }
+//else if state == CARD_STATE.CREDITS
+//{	
+//if on_mouse()
+//{
+//	ease_pos += .02
+//}
+//else {
+//	ease_pos -= .02 
+//}
+
+
+//if flipping and my_card != -1
+//{
+//	if dark_side {
+//		my_card.side = false
+		
+//		flip_pos -= .05
+//		if flip_pos < 0 {
+//			dark_side = false
+//			flipping = false
+//		}
+//	}
+//	else {
+//		my_card.side = true
+		
+//		flip_pos += .05
+//		if flip_pos > 1 {
+//			dark_side = true
+//			flipping = false
+//		}
+//	}
+		
+//	if flip_pos < .5
+//		image_index = 0
+//	else
+//		image_index = 1
+//}
+
+
+//flip_pos = clamp(flip_pos, 0, 1)
+//flip_channel = animcurve_get_channel(cvFlipping, "curve1")
+//flip = animcurve_channel_evaluate(flip_channel, flip_pos)
+
+
+//ease_pos = clamp(ease_pos, 0, .3)
+//ease_channel = animcurve_get_channel(cvCardEaseIn, "curve1")
+//scale = animcurve_channel_evaluate(ease_channel, ease_pos)
+	
+	
+//image_xscale = ( BASE_CREDIT_CARD_XSCALE + (scale / CREDIT_CARD_XSCALE_MOD) ) * flip
+//image_yscale =   BASE_CREDIT_CARD_YSCALE + (scale / CREDIT_CARD_YSCALE_MOD)
+//}

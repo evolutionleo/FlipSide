@@ -35,7 +35,6 @@ function Effect(effect, pow, pers) constructor {
 
 #endregion
 
-
 function addCardChoice(_card) {
 	global.choices.append(_card)
 	_x = CHOICE_X - (global.choices.size - 1) * (CARD_WIDTH + CARD_OFFX) / 2
@@ -48,13 +47,17 @@ function addCardChoice(_card) {
 		_x += CARD_WIDTH + CARD_OFFX
 	})
 	
+	// instance
 	var card = instance_create_layer(_x, _y, "Choice", oCard)
 	card.index = global.choices.size - 1
 	card.state = CARD_STATE.CHOICE
+	
+	// card.my_card is defined automatically
+	// from card.index and card.state
 }
 
 function cardChoiceExists(name) {
-	// Not ForEach() to avoid using "global" variables
+	// Not forEach() to avoid using "global" variables
 	for(var i = 0; i < global.choices.size; ++i)
 	{
 		var _card = global.choices.get(i)
@@ -77,12 +80,30 @@ function createCardChoice() {
 		do {
 			var card = randomCard({})
 		}
-		until(!cardChoiceExists(card.name))
+		until(!cardChoiceExists(card.name)) // until found a unique card
 		
 		addCardChoice(card)
 	}
+	
+	
+	//// wait until the card instances assign their `my_card` variables
+	//setTimeout(noone, function() {
+	save_game()
+	//}, 1)
 }
 
+// like createCardChoice() but not randomized
+function createDefinedCardChoice(cards) {
+	global.choice = true
+	layer_set_visible(layer_get_id("Choice"), true)
+	layer_set_visible(layer_get_id("ChoiceBackground"), true)
+	global.choices = new Array()
+	cards.forEach(function(card) {
+		addCardChoice(card)
+	})
+}
+
+// start the transition
 function endCardChoice() {
 	with(oCard)
 	{
@@ -97,6 +118,7 @@ function endCardChoice() {
 	startTransition(TransitionSlideOut, function() { endCardChoice2() })
 }
 
+// the actual state change
 function endCardChoice2() {
 	global.choice = false
 	layer_set_visible(layer_get_id("Choice"), false)
@@ -105,15 +127,68 @@ function endCardChoice2() {
 	startBattle()
 }
 
+function addCreditCards() {
+	//live_name = "addCreditCard"
+	//if live_call() return live_result
+	
+	//trace("executing...")
+	
+	creditCards = new Array()
+	cardNames = variable_struct_get_names(global.Cards)
+	
+	trace(cardNames)
+	
+	//var len = array_length(cardNames)
+	var len = 8
+	var _w = 4
+	var _h = 2
+	
+	var startx = 160 starty = 160
+	var margin_x = 80, margin_y = 40
+	
+	
+	for(var _y = 0; _y < _h; _y++)
+	{
+		for(var _x = 0; _x < _w; _x++)
+		{
+			//trace("Iterating...")
+			
+			var card_idx = (_y * _w) + _x
+			if card_idx >= len {
+				break
+			}
+			
+			var card_name = cardNames[card_idx]
+			
+			var xx = startx + _x * margin_x// + sprite_width  )
+			var yy = starty + _y * margin_y// + sprite_height )
+			
+			// the credit card
+			var card = instance_create_layer(xx, yy, "CreditCards", oCard)
+			card.state = CARD_STATE.CREDITS
+			//card.artist = "Johnatan Blow"
+			card.my_card = new Card(card_name)
+			card.draggable = false
+			
+			
+			card.x += card.sprite_width  * _x * 2
+			card.y += card.sprite_height * _y * 2
+			
+			creditCards.add(card)
+			
+			
+			//trace("added credit card id#%", card.id)
+		}
+	}
+}
+
 function startBattle() {
 	global.player.deck.shuffle()
-	//global.player.mana = 3
 	global.player.mana = 3
 	global.player.max_mana = 3
 	global.player.hp = global.player.max_hp
 	//global.player.draw(3) - replaced with .startTurn()
-	
-	global.battles++
+
 	#region Turns
 	
 	// Absolute turn counter
@@ -123,19 +198,17 @@ function startBattle() {
 	// Used to display "Turn X"
 	global.full_turns = 1
 	global.turners = new Array()
-
-
-
+	
+	
+	
 	registerTurner(oPlayer)
-
+	
 	global.turner = global.turners.get(global.turn_id)
 	
+	// Draw here
 	global.player.startTurn()
 	#endregion
 	#region Enemies
-	//global.enemies = new Array()
-	
-	
 	
 	spawn = function() {
 		#region Assemble the enemies
@@ -143,7 +216,7 @@ function startBattle() {
 		// Make a set of matching enemies
 		set = new Array()
 		
-		max_diff = global.battles * 2 // difficulty not difference
+		max_diff = (global.battles + 1) * 2 // difficulty not difference
 		cur_diff = 0
 		
 		enemy_names = array_to_Array(variable_struct_get_names(enemy_difficulties))
@@ -210,7 +283,6 @@ function startBattle() {
 		#endregion
 	}
 	
-	
 	#region //Old strict code
 	
 	//switch(global.battles) {
@@ -263,13 +335,14 @@ function startBattle() {
 	#endregion
 	#region New code /w blackjack and random generation
 	
+	// Because you cant just name a struct entry "oSmallSlime"
 	enemy_difficulties = new (function() constructor
 	{
 		self.oSmallSlime = 1 // these are strings anyway
 		self.oSlime= 2		// (expressed with object_get_name() rather than object_index)
 		self.oBigSlime= 4
-		self.oBlueSlime= 6
-		self.oPinkSlime= 7
+		self.oPinkSlime= 6
+		self.oBlueSlime= 9 // the dangerous guy
 		self.oBlackSlime= 10
 		self.oGoblin= 14
 		self.oBat= 16
@@ -289,11 +362,13 @@ function startBattle() {
 	//	room_goto(rTrue)
 	//}
 	#endregion
-	else {
-		//set = array_to_Array(set)
-		spawn()	
+	else { // not ending yet
+		spawn()
 	}
 	#endregion
+	
+	if global.battles != 0
+		save_game()
 }
 
 function enemiesRemain() {
@@ -308,27 +383,67 @@ function enemiesRemain() {
 }
 
 function endBattle() {
-	global.player.discardHand()
 	global.player.clearEffects()
 	
-	var pers = global.player.hp / global.player.max_hp
-	global.player.max_hp += 10
-	global.player.hp = floor(global.player.max_hp * pers)
 	
+	global.battles++
+	
+	
+	// Buff player hp
+	//var pers = global.player.hp / global.player.max_hp
+	global.player.max_hp += 10
+	//global.player.hp = floor(global.player.max_hp * pers)
+	
+	// Shuffle everything into the deck:
+	// hand -> grave
+	global.player.discardHand()
+	// grave -> deck
 	global.player.grave.forEach(function(card) {
 		global.player.deck.append(card)
 	})
 	global.player.grave.clear()
 	
+	// flip all the cards on their A-Side
 	global.player.deck.lambda(function(card) {
 		card.side = 0
 		return card
 	})
 	
-	
+	// kill all the enemies
 	with(oEnemy) {
 		die()
 	}
 	
+	// Go to card selection
 	startTransition(TransitionSlideIn, function() { createCardChoice() })
+}
+
+// Like endBattle() but without permanent global game state consequences
+function semiEndBattle() {
+	global.player.clearEffects()
+	
+	// Shuffle everything into the deck:
+	// hand -> grave
+	global.player.discardHand()
+	// grave -> deck
+	global.player.grave.forEach(function(card) {
+		global.player.deck.append(card)
+	})
+	global.player.grave.clear()
+	
+	// flip all the cards on their A-Side
+	global.player.deck.lambda(function(card) {
+		card.side = 0
+		return card
+	})
+	
+	// kill all the enemies
+	with(oEnemy) {
+		die()
+	}
+}
+
+function restartBattle() {
+	semiEndBattle()
+	startBattle()
 }

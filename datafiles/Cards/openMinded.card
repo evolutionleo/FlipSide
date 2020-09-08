@@ -15,5 +15,6 @@
 	"text": "Lose [hit=5] hp. Double healing this turn",
 	"side_text": "Discard [discard=2]. Gain control over an enemy. [b]Exile[/b]",
 	"color": "ad682c",
-	"side_color": "724620"
+	"side_color": "724620",
+	"artist": "Evoleo"
 }

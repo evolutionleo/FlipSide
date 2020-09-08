@@ -2,7 +2,7 @@
 
 //if live_call() return live_result
 
-if state == CARD_STATE.DISCARD
+if !draggable
 	exit
 
 global.dragging = id
