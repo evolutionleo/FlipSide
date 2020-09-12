@@ -81,6 +81,8 @@
   },
   "resourceVersion": "1.0",
   "name": "sManaCrystal",
-  "tags": [],
+  "tags": [
+    "scribble",
+  ],
   "resourceType": "GMSprite",
 }

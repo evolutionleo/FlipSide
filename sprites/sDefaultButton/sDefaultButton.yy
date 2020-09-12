@@ -70,8 +70,8 @@
     {"visible":false,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"1886cd85-49d4-4d01-ba82-d37f384e88db","tags":[],"resourceType":"GMImageLayer",},
   ],
   "parent": {
-    "name": "Buttons",
-    "path": "folders/Resources/Sprites/UI/Buttons.yy",
+    "name": "Defaults",
+    "path": "folders/Resources/Sprites/UI/Defaults.yy",
   },
   "resourceVersion": "1.0",
   "name": "sDefaultButton",

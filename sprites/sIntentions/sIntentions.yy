@@ -85,6 +85,8 @@
   },
   "resourceVersion": "1.0",
   "name": "sIntentions",
-  "tags": [],
+  "tags": [
+    "scribble",
+  ],
   "resourceType": "GMSprite",
 }

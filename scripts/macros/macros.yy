@@ -2,8 +2,8 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Core",
-    "path": "folders/Code/Scripts/Core.yy",
+    "name": "Scripts",
+    "path": "folders/Code/Scripts.yy",
   },
   "resourceVersion": "1.0",
   "name": "macros",

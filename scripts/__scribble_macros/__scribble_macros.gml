@@ -7,7 +7,8 @@
 #macro SCRIBBLE_SPRITEFONT_ALIGN_GLYPHS_LEFT  false  //Set to <true> to emulate GameMaker's native behaviour
 #macro SCRIBBLE_MISSING_CHARACTER             "?"    //Used when a character is missing from a font
 #macro SCRIBBLE_BGR_COLOR_HEX_CODES           false  //Set to <true> to use GameMaker's #BBGGRR format for in-line hex code colors. <false> uses the industry standard #RRGGBB format
-#macro SCRIBBLE_DEFAULT_SPRITE_SPEED          0.1    //The default animation speed for sprites inserted into text
+// Edited here! (default - 0.1)
+#macro SCRIBBLE_DEFAULT_SPRITE_SPEED          0		 //The default animation speed for sprites inserted into text
 #macro SCRIBBLE_DEFAULT_DELAY_DURATION        450    //Default duration of the [delay] command, in milliseconds
 
 
@@ -19,7 +20,8 @@
 #macro SCRIBBLE_CREATE_GLYPH_LTRB_ARRAY   false     //Outputs an array of glyph LTRB bounding boxes
 #macro SCRIBBLE_CREATE_CHARACTER_ARRAY    false     //Outputs an array of character codes
 #macro SCRIBBLE_DEFAULT_OCCURANCE_NAME    "default" //Default value to use for autotyper occurances
-#macro SCRIBBLE_CACHE_TIMEOUT             15000     //How long to wait (in milliseconds) before the cache automatically destroys a text element. Set to 0 (or less) to turn off automatic de-caching (you'll need to manually call scribble_flush() instead)
+// Edited here: (default is 15k)
+#macro SCRIBBLE_CACHE_TIMEOUT             -1		//How long to wait (in milliseconds) before the cache automatically destroys a text element. Set to 0 (or less) to turn off automatic de-caching (you'll need to manually call scribble_flush() instead)
 #macro SCRIBBLE_VERBOSE                   false     //Enables verbose console output to aid with debugging
 
 #macro SCRIBBLE_COMMAND_TAG_OPEN          ord("[") //Character used to open a command tag. First 127 ASCII chars only
@@ -30,12 +32,12 @@
 
 
 
-    #region Warnings
+#region Warnings
 
-	//Various warning messages. Please do not turn these off unless you have to!
+//Various warning messages. Please do not turn these off unless you have to!
 #macro SCRIBBLE_WARNING_REINITIALIZE           false
 #macro SCRIBBLE_WARNING_TEXTURE_PAGE           true
 #macro SCRIBBLE_WARNING_AUTOSCAN_YY_NOT_FOUND  true
 #macro SCRIBBLE_WARNING_DRAW_SET_DEPRECATED    true
 
-    #endregion
+#endregion

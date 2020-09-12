@@ -68,8 +68,8 @@
     {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"5dc953c6-9f04-48e7-93c6-1bd7ebbaef90","tags":[],"resourceType":"GMImageLayer",},
   ],
   "parent": {
-    "name": "UI",
-    "path": "folders/Resources/Sprites/UI.yy",
+    "name": "Defaults",
+    "path": "folders/Resources/Sprites/UI/Defaults.yy",
   },
   "resourceVersion": "1.0",
   "name": "sDefaultSlider",

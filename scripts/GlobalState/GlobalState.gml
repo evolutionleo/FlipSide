@@ -447,3 +447,12 @@ function restartBattle() {
 	semiEndBattle()
 	startBattle()
 }
+
+function showRunSummary() {
+	static lay = layer_create(1, "Sequences")
+	layer_sequence_create(lay, room_width/2, room_height/2, sqRunSummary)
+}
+
+function hideRunSummary() {
+	game_restart()
+}

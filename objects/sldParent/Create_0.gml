@@ -1,6 +1,6 @@
 /// @desc
 
-onChange = function() {
+onChange = function(prev_value, new_value) {
 	
 }
 

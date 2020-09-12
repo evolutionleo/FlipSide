@@ -72,7 +72,12 @@ scribble_set_transform(xscale, yscale, image_angle)
 scribble_set_wrap(CARD_TEXTBOX_W/yscale, CARD_TEXTBOX_H/yscale, false)
 scribble_set_box_align(fa_center, fa_middle, false)
 // y + 26*image_yscale -hei/2*image_yscale
+
+
 scribble_draw(CARD_TEXTBOX_X, CARD_TEXTBOX_Y, pre+ text +post)
+
+
+scribble_reset()
 
 //if DEBUG_MODE { // ugly frick
 //	scribble_set_transform(4, 4, 0)

@@ -21,6 +21,7 @@ function Player() constructor {
 	#region Workarouds
 	
 	last_played_pos = -1
+	last_hit = noone
 	
 	#endregion
 	
@@ -240,6 +241,9 @@ function Player() constructor {
 			create_text({x: oPlayer.x, y: oPlayer.bbox_top - global.hit_num*16, text: "-"+string(damage), color: c_red, font: fDamageNumber, spd: {x: 0, y: -1}, lifetime: 40, fadeout_time: 20})
 			global.hit_num++
 			
+			
+			last_hit = dealer
+			
 			handleHealth()
 		}
 		
@@ -270,6 +274,8 @@ function Player() constructor {
 		
 		oPlayer.flash_color = c_lime
 		oPlayer.flash_alpha = 1.0
+		
+		oStats.heal_amount += amount
 	}
 	
 	// Used for damage modifiers
@@ -277,6 +283,8 @@ function Player() constructor {
 		if is_undefined(lifesteal)
 			lifesteal = false
 		
+		
+		_potential_killed = target
 		
 		damage = modifyDamage(damage)
 		
@@ -286,19 +294,29 @@ function Player() constructor {
 			heal(ceil(damage/2)) // there lifesteal becomes equal to true, so we don't go infinite
 		
 		if !instance_exists(target) or target.hp <= 0 {
-			onKill()
+			onKill(_potential_killed)
 		}
 		
+		
+		oStats.dealt_damage += damage
 	}
 	
-	onKill = function() {
+	onKill = function(killed) {
 		//var healing = getEffect(EFFECTS.HEALING_DEATH)
 		
 		//if healing > 0 {
 		//	heal(healing)
 		//}
 		
+		if !instance_exists(killed)
+			trace("Whoops, destroyed!")
+		
+		trace("Killed a dude: ")
+		trace(killed)
+		
 		// Glory kills became lifesteal instead
+		oStats.kills++
+		oStats.kill_list.add(killed.object_index)
 	}
 	
 	handleHealth = function() {
@@ -309,13 +327,15 @@ function Player() constructor {
 		}
 	}
 	
-	die = function() {
+	die = function(killer) {
 		var filename = "save1.game"
 		
 		vinyl_play(vinyl_lib.player_death)
 		file_delete(filename)
-		game_restart()
-		//room_goto(rGameover)
+		//game_restart()
+		
+		oStats.killer = killer
+		showRunSummary()
 	}
 	
 	#endregion
@@ -681,13 +701,13 @@ function Player() constructor {
 	}
 	
 	drawGraveyard = function(x, y) {
-		draw_sprite_ext(sGrave, 0, x, y, 2, 2, 0, c_white, 1.0)
+		draw_sprite_ext(sGrave, 0, x, y, GRAVE_XSCALE, GRAVE_YSCALE, 0, c_white, 1.0)
 		
 		draw_get()
 		
 		draw_set_halign(fa_center)
 		draw_set_valign(fa_middle)
-		draw_set_color(c_ltgray)
+		draw_set_color(c_white)
 		draw_set_font(fDeckSize)
 		draw_text(x, y, string(grave.size))
 		

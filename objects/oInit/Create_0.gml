@@ -5,7 +5,14 @@ function __init__() {
 	
 	if !initialized {
 		scribble_init("Fonts", "fCard", false)
-		scribble_add_font("fCard")
+		//scribble_add_font("fCard")
+		for(var i = 0; i < 999; ++i) {
+			if (!font_exists(i))
+				break
+			
+			scribble_add_font(font_name(i))
+		}
+		
 		
 		display_set_gui_size(room_width, room_height)
 		

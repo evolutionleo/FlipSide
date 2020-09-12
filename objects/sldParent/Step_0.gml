@@ -56,4 +56,4 @@ or distance_to_point(mouse_x, mouse_y) > 64 {
 value = clamp(value, min_value, max_value)
 
 if value != prev_value
-	onChange()
+	onChange(prev_value, value)

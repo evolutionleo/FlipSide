@@ -1,9 +1,6 @@
 /// @desc
 
 #region BLYAT' VERSTKA SLETELA
-#macro elseif else if
-#macro elif else if
-
 
 #region BLYAT' VERSTKA SLETELA
 
@@ -66,8 +63,10 @@
 //#macro GRAVE_Y 64+104
 #macro GRAVE_X 54
 #macro GRAVE_Y 168
-#macro GRAVE_WIDTH 64
-#macro GRAVE_HEIGHT 64
+#macro GRAVE_WIDTH 96
+#macro GRAVE_HEIGHT 96
+#macro GRAVE_XSCALE (GRAVE_WIDTH  /  sprite_get_width(sGrave))
+#macro GRAVE_YSCALE (GRAVE_HEIGHT / sprite_get_height(sGrave))
 
 // Exile pile position
 #macro EXILE_X room_width/2
@@ -87,6 +86,10 @@
 #macro ICON_HEIGHT 24
 #macro ICON_OFFX 4
 #macro ICON_OFFY 0
+
+#macro SUMMARY_ICON_WIDTH  32
+#macro SUMMARY_ICON_HEIGHT 32
+#macro SUMMARY_ICON_SCALE string(SUMMARY_ICON_WIDTH / sprite_get_width(sRunSummary))
 
 // The current dragging card
 global.dragging = noone
